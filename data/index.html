@@ -21,26 +21,27 @@
         </div>
 
         <div class="mdl-card__supporting-text">
-            <h6>Parámetros:</h6>
+            <h6>Configuración</h6>
             <ul class="mdl-list mdl-shadow--2dp">
                 <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">pH</span>
+                    <span class="mdl-list__item-primary-content">PWM-A</span>
                     <span class="mdl-list__item-secondary-action">
-                        <label id="input-label-pH" class="label-big Off-style">OFF</label>
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                            <input id="pwm-switch-1" data-id="1" type="checkbox" class="mdl-switch__input"
+                                onchange="sendGPIOESP32Mod(this.dataset.id, this.checked)" />
+                        </label>
                     </span>
                 </li>
                 <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">Temperatura</span>
+                    <span class="mdl-list__item-primary-content">PWM-B</span>
                     <span class="mdl-list__item-secondary-action">
-                        <label id="input-label-temp" class="label-big Off-style">OFF</label>
-                    </span>
-                </li>              
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">Frecuencia</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <label id="input-label-Freq" class="label-big Off-style">---</label>
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                            <input id="pwm-switch-2" data-id="2" type="checkbox" class="mdl-switch__input"
+                                onchange="sendGPIOESP32Mod(this.dataset.id, this.checked)" />
+                        </label>
                     </span>
                 </li>
+
             </ul>
         </div>
 
@@ -52,7 +53,7 @@
                     <span class="mdl-list__item-secondary-action">
                         <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
                             <input id="output-switch-2" data-id="2" type="checkbox" class="mdl-switch__input"
-                            onchange="sendGPIOESP32Mod(this.dataset.id, this.checked)"/>
+                                onchange="sendGPIOESP32Mod(this.dataset.id, this.checked)" />
                         </label>
                     </span>
                 </li>
@@ -61,21 +62,25 @@
                         <label id="input-label-GPIO2" class="label-big Off-style">OFF</label>
                     </span>
                 </li>
-
                 <li class="mdl-list__item">
                     <span class="mdl-list__item-primary-content">Tpwm [us]</span>
                     <span class="mdl-list__item-secondary-action">
                         <div class="mdl-grid">
                             <div class="mdl-cell mdl-cell--10-col">
-                                <input id="slider-pwm-1" data-id="1" class="mdl-slider mdl-js-slider"
-                                    type="range" min="20" max="400" value="20"
-                                    onchange="sendPWM(this.dataset.id, this.value);" >
+                                <input id="slider-pwm-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
+                                    min="20" max="400" value="20" onchange="sendPWM(this.dataset.id, this.value);">
                             </div>
                             <div class="mdl-cell mdl-cell--2-col">
-                                <input id="slider-text-pwm-1" data-id="1" style="width:45px;" min="20" max ="400" value="20"
-                                onchange="sendPWM(this.dataset.id, this.value);" ></input>
+                                <input id="slider-text-pwm-1" data-id="1" style="width:45px;" min="20" max="400"
+                                    value="20" onchange="sendPWM(this.dataset.id, this.value);"></input>
                             </div>
                         </div>
+                    </span>
+                </li>
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">Frecuencia</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label id="input-label-Freq" class="label-big Off-style">---</label>
                     </span>
                 </li>
             </ul>
