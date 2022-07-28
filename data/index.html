@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="">
+
+<head>
+    <title>ProtoInverter</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <link rel="stylesheet" href="vendor/google-fonts.css">
+    <link rel="stylesheet" href="vendor/material.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <div class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title mdl-card--expand">
+            <h2 class="mdl-card__title-text">Interfaz proto-Alfa</h2>
+        </div>
+
+        <div class="mdl-card__supporting-text">
+            <h6>Parámetros:</h6>
+            <ul class="mdl-list mdl-shadow--2dp">
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">pH</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label id="input-label-pH" class="label-big Off-style">OFF</label>
+                    </span>
+                </li>
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">Temperatura</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label id="input-label-temp" class="label-big Off-style">OFF</label>
+                    </span>
+                </li>              
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">Frecuencia</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label id="input-label-Freq" class="label-big Off-style">---</label>
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="mdl-card__supporting-text">
+            <h6>Controles</h6>
+            <ul class="mdl-list mdl-shadow--2dp">
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">GPIO2/LED</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                            <input id="output-switch-2" data-id="2" type="checkbox" class="mdl-switch__input"
+                            onchange="sendGPIOESP32Mod(this.dataset.id, this.checked)"/>
+                        </label>
+                    </span>
+                </li>
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-secondary-action">
+                        <label id="input-label-GPIO2" class="label-big Off-style">OFF</label>
+                    </span>
+                </li>
+
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">Tpwm [us]</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--10-col">
+                                <input id="slider-pwm-1" data-id="1" class="mdl-slider mdl-js-slider"
+                                    type="range" min="20" max="400" value="20"
+                                    onchange="sendPWM(this.dataset.id, this.value);" >
+                            </div>
+                            <div class="mdl-cell mdl-cell--2-col">
+                                <input id="slider-text-pwm-1" data-id="1" style="width:45px;" min="20" max ="400" value="20"
+                                onchange="sendPWM(this.dataset.id, this.value);" ></input>
+                            </div>
+                        </div>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="./js/main.js"></script>
+<script type="text/javascript" src="vendor/material.js"></script>
+
+</html>
