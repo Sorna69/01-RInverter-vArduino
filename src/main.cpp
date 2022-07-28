@@ -22,7 +22,7 @@ void setup()
   SPIFFS.begin();
 
   Conectar_WiFi_AP();
-  //Conectar_WiFi_STA();
+  // Conectar_WiFi_STA();
   InitServer();
   InitWebSockets();
 
@@ -33,19 +33,19 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(22, OUTPUT);
 
+  digitalWrite(LED_BUILTIN, HIGH);
   digitalWrite(22, HIGH);
-
 }
 
 void loop()
 {
 
-  //test2_MCPWM();
-  //delay(1000);
-  //test_MCPWM_CLK_CFG_REG();
-  //delay(1000);
-  //test_MCPWM_TIMER0_CFG0_REG();
-  //leer_TIMER0();
-  //set_DutyCicle(10000);
-  //delay(1000);
+  // test2_MCPWM();
+  // delay(1000);
+  // test_MCPWM_CLK_CFG_REG();
+  // delay(1000);
+  // test_MCPWM_TIMER0_CFG0_REG();
+  // leer_TIMER0();
+  // set_DutyCicle(10000);
+  // delay(1000);
 }

@@ -162,7 +162,8 @@ pull-up/down resistors.
 void conf_GPIO()
 {
   // Configuracion GPIO15/18 como Salida PWM0a (Func32/33)
-  //  1a)
+  //  1a) Conecta GPIO15/18 con las funciones 32/33 (PWM0A/B) (Control del GPIO al PERIFERICO)
+  // Para un valor de 256 el control de la HABILITACION y VALOR de salida vuelven a los registros 
   REG_SET_FIELD(GPIO_FUNC15_OUT_SEL_CFG_REG, GPIO_FUNC15_OUT_SEL, 32);
   REG_SET_FIELD(GPIO_FUNC18_OUT_SEL_CFG_REG, GPIO_FUNC18_OUT_SEL, 33);
 

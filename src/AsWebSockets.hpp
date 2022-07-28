@@ -88,11 +88,18 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
       // Mensaje Confirmacion
       updateGPIO(id, digitalRead(id), client->id());
     }
+     else   if (command == "enablePWM")
+    {
+      const int id = doc["id"];
+      enablePWM(id, (bool)doc["status"]);
+      // NECESITA SER MODIFICADO
+      //updateGPIO(id, digitalRead(id), client->id());
+    }
     else if (command == "setPWM")
     {
       const int id = doc["id"];
       const uint16_t Tpwm = (uint16_t)doc["pwm"];
-      setPWM(id, Tpwm);
+      setTpwm(id, Tpwm);
 
       // setPWM(doc["id"], (uint16_t)doc["pwm"]);
       // ws.textAll(request);
