@@ -41,7 +41,7 @@ void enablePWM(const int id, bool state)
     case 18:
     if (state)
     {
-      REG_SET_FIELD(GPIO_FUNC15_OUT_SEL_CFG_REG, GPIO_FUNC15_OUT_SEL, 33);
+      REG_SET_FIELD(GPIO_FUNC18_OUT_SEL_CFG_REG, GPIO_FUNC18_OUT_SEL, 33);
     }
     else
     {
