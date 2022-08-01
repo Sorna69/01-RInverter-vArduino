@@ -26,26 +26,18 @@ void setup()
   InitServer();
   InitWebSockets();
 
-  conf_DPORT();
-  conf_MCPWM();
-  conf_GPIO();
-
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(22, OUTPUT);
+  pinMode(PWM_A, OUTPUT);
+  pinMode(PWM_B, OUTPUT);
+  pinMode(DIS, OUTPUT);
 
   digitalWrite(LED_BUILTIN, HIGH);
-  digitalWrite(22, HIGH);
+  digitalWrite(DIS, HIGH);
+  digitalWrite(PWM_A, LOW);
+  digitalWrite(PWM_B, LOW);
 }
 
 void loop()
 {
 
-  // test2_MCPWM();
-  // delay(1000);
-  // test_MCPWM_CLK_CFG_REG();
-  // delay(1000);
-  // test_MCPWM_TIMER0_CFG0_REG();
-  // leer_TIMER0();
-  // set_DutyCicle(10000);
-  // delay(1000);
 }

@@ -58,26 +58,7 @@ function sendGPIO(id, status) {
 	connection.send(json);
 }
 
-function enablePWM(id, status) {
 
-	console.log("Function sedGPIOESP32Mod");
-
-	// Código adicional, para esperar confirmacion
-	// Cuando se envia un comando para activar/desactivar un PIN se deshabilita el switch (hasta recibir confirmacion)
-	// Esto no lo hago bien, creo que tiene que ver con como selecciono la propiedad del elemento Query?
-	//document.getElementById('output-switch-' + id).disabled = true;
-
-	// Código original, sin añadir control respuesta
-	let data = {
-		device: "ESP32",
-		command: "enablePWM",
-		id: id,
-		status: status
-	}
-
-	let json = JSON.stringify(data);
-	connection.send(json);
-}
 
 function updateGPIO(id, status) {
 	console.log ('Funcion updateGPIO. id:' +id + ' Status: ' +status);
@@ -102,19 +83,7 @@ function updateGPIO(id, status) {
 	
 }
 
-function sendTpwm(id, Tpwm) {
-	updateSliderText(id, Tpwm);
-	Timer_value = Tpwm*160;
-	let data = {
-		device: "ESP32",
-		command: "setPWM",
-		id: id,
-		pwm: Timer_value
-	}
 
-	let json = JSON.stringify(data);
-	connection.send(json);
-}
 
 function updateDATA(pHData, tempData, modeData) {
 	document.getElementById('input-label-pH').textContent = pHData;
