@@ -182,13 +182,13 @@ void conf_GPIO()
   // 2 Se omite,no es salida open drain
 
   // 3a)
-  //REG_SET_FIELD(PERIPHS_IO_MUX_MTDO_U, MCU_SEL, 2);
-    REG_SET_FIELD(IO_MUX_GPIO15_REG, MCU_SEL, 2);
-  // 3b) 
+  // REG_SET_FIELD(PERIPHS_IO_MUX_MTDO_U, MCU_SEL, 2);
+  REG_SET_FIELD(IO_MUX_GPIO15_REG, MCU_SEL, 2);
+  // 3b)
   // REG_SET_FIELD(IO_MUX_GPIO15_REG,FUN_DRV,1);
   //  3c) Se omite
 
-  //REG_SET_FIELD(GPIO_ENABLE_REG, GPIO_ENABLE_DATA, BIT15 + BIT18);
+  // REG_SET_FIELD(GPIO_ENABLE_REG, GPIO_ENABLE_DATA, BIT15 + BIT18);
 
   Serial.print("Valor de GPIO_FUNC18_OUT_SEL_CFG_REG: ");
   Serial.println(REG_READ(GPIO_FUNC18_OUT_SEL_CFG_REG));
@@ -202,8 +202,29 @@ void conf_DPORT()
   DPORT_REG_SET_BIT(DPORT_PERIP_CLK_EN_REG, DPORT_PWM0_CLK_EN);
   Serial.print(" REGISTRO HABILITACION MCPWM: ");
   Serial.println(DPORT_REG_READ(DPORT_PERIP_CLK_EN_REG));
+
+// No entiendo muy bien porque hay que restear y limpiar el reset para que funcione
+// Set each bit to reset the corresponding module. Clear the bit to release the corresponding module. For the list of
+// modules, please refer to register 5.17.
   DPORT_REG_SET_BIT(DPORT_PERIP_RST_EN_REG, DPORT_PWM0_RST);
   DPORT_REG_CLR_BIT(DPORT_PERIP_RST_EN_REG, DPORT_PWM0_RST);
   DPORT_REG_READ(DPORT_AHBLITE_MPU_TABLE_PWM0_REG);
   DPORT_REG_WRITE(DPORT_AHBLITE_MPU_TABLE_PWM0_REG, 1);
+}
+
+void enable_PCOUNTER_CLK()
+{
+  DPORT_REG_SET_BIT(DPORT_PERIP_CLK_EN_REG, DPORT_PCNT_CLK_EN);
+
+  DPORT_REG_SET_BIT(DPORT_PERIP_RST_EN_REG, DPORT_PCNT_RST);
+  DPORT_REG_CLR_BIT(DPORT_PERIP_RST_EN_REG, DPORT_PCNT_RST);
+
+// MPU/MMU registers are used for MPU/MMU configuration and operation control. They are listed in Section 5.4,
+// categorized as ”MPU/MMU registers”. For a detailed description of these registers, please refer to Chapter Memory
+// Management and Protection Units (MMU, MPU).
+  DPORT_REG_WRITE(DPORT_AHBLITE_MPU_TABLE_PCNT_REG, 1);
+}
+
+void set_PCOUNTER_GPIO(){
+  
 }
