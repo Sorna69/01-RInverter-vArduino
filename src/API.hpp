@@ -1,5 +1,3 @@
-//#include "pwm.hpp"
-
 void setGPIO(const int id, bool state)
 {
   // char idChar[id.length()];
