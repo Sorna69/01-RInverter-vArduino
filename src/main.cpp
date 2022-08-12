@@ -4,8 +4,8 @@
 #include <SPIFFS.h>
 #include <ESPAsyncWebServer.h>
 
-#include <soc/mcpwm_reg.h>
-#include <soc/mcpwm_struct.h>
+//#include <soc/mcpwm_reg.h>
+//#include <soc/mcpwm_struct.h>
 
 #include "Config.h"
 
@@ -26,7 +26,8 @@ void setup()
   InitServer();
   InitWebSockets();
 
-  enable_DPORT_CLK();
+  enable_MCPWM_CLK();
+  //enable_PCOUNTER_CLK();
   conf_MCPWM();
   conf_GPIO();
 
