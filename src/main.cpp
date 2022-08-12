@@ -4,9 +4,6 @@
 #include <SPIFFS.h>
 #include <ESPAsyncWebServer.h>
 
-//#include <soc/mcpwm_reg.h>
-//#include <soc/mcpwm_struct.h>
-
 #include "Config.h"
 
 #include "pwm.hpp"
