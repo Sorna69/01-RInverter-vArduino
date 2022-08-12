@@ -1,4 +1,5 @@
 #define LED_BUILTIN 2
+#define DIS 22
 
 // Configuración modo AP
 const char *ssid_AP = "ESP32-RI";
