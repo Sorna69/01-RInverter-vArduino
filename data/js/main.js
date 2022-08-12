@@ -39,7 +39,7 @@ function processReceived(data) {
 
 function sendGPIO(id, status) {
 
-	console.log("Function sedGPIOESP32Mod");
+	console.log("Function sendGPIOESP32Mod");
 
 	// Código adicional, para esperar confirmacion
 	// Cuando se envia un comando para activar/desactivar un PIN se deshabilita el switch (hasta recibir confirmacion)
@@ -71,7 +71,7 @@ function updateGPIO(id, status) {
 	// y se actualiza el estado y contenido de la etiqueta
 	document.getElementById('input-label-GPIO' + id).textContent = status;
 
-	// Igual el atributo disable y enable del switch esta dentro de la clase de swithc
+	// Igual el atributo disable y enable del switch esta dentro de la clase de switch
 	if (status == 'ON') {
 		document.getElementById('input-label-GPIO' + id).classList.add('On-style');
 		document.getElementById('input-label-GPIO' + id).classList.remove('Off-style');
@@ -82,8 +82,6 @@ function updateGPIO(id, status) {
 	}
 	
 }
-
-
 
 function updateDATA(pHData, tempData, modeData) {
 	document.getElementById('input-label-pH').textContent = pHData;
