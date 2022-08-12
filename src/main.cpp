@@ -26,7 +26,7 @@ void setup()
   InitServer();
   InitWebSockets();
 
-  conf_DPORT();
+  enable_DPORT_CLK();
   conf_MCPWM();
   conf_GPIO();
 
