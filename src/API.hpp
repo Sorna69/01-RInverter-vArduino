@@ -11,5 +11,7 @@ void setGPIO(const int id, bool state)
   digitalWrite(LED_BUILTIN,digitalRead(DIS));
 }
   //digitalWrite(LED_BUILTIN, state);
-
+  // Original
+  // digitalWrite(id, state);
+  // digitalWrite(22, state);
 }
