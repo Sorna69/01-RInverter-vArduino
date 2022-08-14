@@ -11,6 +11,10 @@ void setGPIO(const int id, bool state) {
   if(id == 22){
   digitalWrite(LED_BUILTIN, digitalRead(DIS));
   }
+
+  // Original
+  // digitalWrite(id, state);
+  // digitalWrite(22, state);
 }
 
 // MODIFICAR id Por const int (aunque solo hay 1) y añadir un int para la frecuencia
