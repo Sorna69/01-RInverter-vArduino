@@ -18,13 +18,14 @@ void setGPIO(const int id, bool state) {
 }
 
 // MODIFICAR id Por const int (aunque solo hay 1) y añadir un int para la frecuencia
-void setPWM(int id, uint16_t pwm) {
+void setPWM(const int id, uint16_t Tpwm) {
   Serial.print("Set PWM ");
   Serial.print(id);
   Serial.print(": ");
-  Serial.println(pwm);
-  set_TMR0_PERIOD(pwm);
-  set_DutyCicle((uint16_t)pwm/2);
+  Serial.println(Tpwm);
+
+  set_TMR0_PERIOD(Tpwm);
+  set_DutyCicle((uint16_t)Tpwm/2);
 
   // Lo que tenga que hacer el PWM, cambiar frecuencia y/o Duty Cilce
   //digitalWrite(id, state);

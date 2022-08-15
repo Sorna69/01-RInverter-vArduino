@@ -1,7 +1,7 @@
 #include <soc/mcpwm_reg.h>
 #include <soc/mcpwm_struct.h>
 
-void forzar_update()
+  void forzar_update()
 {
     Serial.print("Valor del Registro MCPWM_UPDATE_CFG_REG: ");
     Serial.println(REG_READ(MCPWM_UPDATE_CFG_REG(0)));
