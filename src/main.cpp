@@ -6,7 +6,7 @@
 
 #include "Config.h"
 
-#include "pwm.hpp"
+#include "Esp32Perip.hpp"
 #include "AsyncWebServer.hpp"
 #include "API.hpp"
 #include "AsWebSockets.hpp"
@@ -18,8 +18,8 @@ void setup()
   Serial.begin(115200);
   SPIFFS.begin();
 
-  Conectar_WiFi_AP();
-  // Conectar_WiFi_STA();
+  //Conectar_WiFi_AP();
+  Conectar_WiFi_STA();
   InitServer();
   InitWebSockets();
 

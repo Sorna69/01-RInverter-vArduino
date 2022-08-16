@@ -24,13 +24,11 @@
             <h6>Configuración</h6>
             <ul class="mdl-list mdl-shadow--2dp">
                 <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">GATE DRIVER DIS</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-                            <input id="output-switch-22" data-id="22" type="checkbox" class="mdl-switch__input" checked ="true"
-                                onchange="sendGPIO(this.dataset.id, this.checked)" />
+                        <label for ="output-switch-22" class="mdl-switch mdl-js-switch">
+                            <span class="mdl-switch__label">GATE DRIVER DIS</span>
+                            <input type="checkbox" id="output-switch-22" data-id="22" class="mdl-switch__input"
+                                onchange="sendGPIO(this.dataset.id, this.checked)">
                         </label>
-                    </span>
                 </li>
                 <li class="mdl-list__item">
                     <span class="mdl-list__item-secondary-action">
@@ -41,7 +39,7 @@
                     <span class="mdl-list__item-primary-content">OUT-A</span>
                     <span class="mdl-list__item-secondary-action">
                         <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-                            <input id="pwm-switch-15" data-id="15" type="checkbox" class="mdl-switch__input"
+                            <input id="output-switch-15" data-id="15" type="checkbox" class="mdl-switch__input"
                                 onchange="sendGPIO(this.dataset.id, this.checked)" />
                         </label>
                     </span>
@@ -50,7 +48,7 @@
                     <span class="mdl-list__item-primary-content">OUT-B</span>
                     <span class="mdl-list__item-secondary-action">
                         <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-                            <input id="pwm-switch-18" data-id="18" type="checkbox" class="mdl-switch__input"
+                            <input id="output-switch-18" data-id="18" type="checkbox" class="mdl-switch__input"
                                 onchange="sendGPIO(this.dataset.id, this.checked)" />
                         </label>
                     </span>

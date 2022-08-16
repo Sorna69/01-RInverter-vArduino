@@ -59,6 +59,18 @@ void updateGPIO(int input, bool value, int id_cliente)
   Serial.println(value ? String(" ON") : String(" OFF"));
 }
 
+void initialStatus(int input, bool value, int id_cliente)
+{
+
+  String response;
+  StaticJsonDocument<300> doc;
+  doc["command"] = "initialStatus";
+  doc["id"] = input;
+  doc["status"] = value ? String("ON") : String("OFF");
+  serializeJson(doc, response);
+  ws.textAll(response);
+}
+
 void ProcessRequest(AsyncWebSocketClient *client, String request)
 {
   StaticJsonDocument<200> doc;
@@ -83,14 +95,12 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
       // char iden[10];
       // String id = doc["command"];
       // id.toCharArray(iden,10);
+      
       const int id = doc["id"];
       setGPIO(id, (bool)doc["status"]);
       // Mensaje Confirmacion
       updateGPIO(id, digitalRead(id), client->id());
     }
-    // echo
-    // ws.textAll(request);
-    // ws.text(client->id(),request);
   }
 
   else

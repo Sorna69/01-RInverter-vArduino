@@ -31,7 +31,9 @@ function processReceived(data) {
 	else if (json.command == 'updateDATA') {
 		updateDATA(json.pHData, json.tempData, json.modeData);
 	}
-
+	else if (json.command == 'initialStatus') {
+		initialStatus(json.id, json.status);
+	}
 	else {
 		console.log ('No se reconoce el mesaje');
 	}
@@ -45,6 +47,11 @@ function sendGPIO(id, status) {
 	// Cuando se envia un comando para activar/desactivar un PIN se deshabilita el switch (hasta recibir confirmacion)
 	// Esto no lo hago bien, creo que tiene que ver con como selecciono la propiedad del elemento Query?
 	//document.getElementById('output-switch-' + id).disabled = true;
+	//document.getElementById('output-switch-' + id).setAttribute('disabled','')
+	//document.getElementById('output-switch-' + id).attributes.removeAttribute('disabled');
+
+	//document.getElementById('output-switch-' + id).parentNode.MaterialCheckbox.disable = true;
+
 
 	// Código original, sin añadir control respuesta
 	let data = {
@@ -58,7 +65,24 @@ function sendGPIO(id, status) {
 	connection.send(json);
 }
 
+function initialStatus(id, status){
+	document.getElementById('input-label-GPIO' + id).textContent = status;
 
+	//document.getElementById('output-switch-' + id).disabled = false;
+	//document.getElementById('output-switch-' + id).Checked = status;
+	//document.querySelector('#output-switch-22').Checked = true;
+	//document.getElementById('output-switch-' + id).ariaChecked = status;
+
+	if (status == 'ON') {
+		document.getElementById('input-label-GPIO' + id).classList.add('On-style');
+		document.getElementById('input-label-GPIO' + id).classList.remove('Off-style');
+	}
+	else {
+		document.getElementById('input-label-GPIO' + id).classList.add('Off-style');
+		document.getElementById('input-label-GPIO' + id).classList.remove('On-style');
+	}
+	
+}
 
 function updateGPIO(id, status) {
 	console.log ('Funcion updateGPIO. id:' +id + ' Status: ' +status);
@@ -66,9 +90,9 @@ function updateGPIO(id, status) {
 	// Cuando se recibe el echo se vuelve a activar el boton/checkbox
 	// Esto tampo lo hago bien, creo que tiene que ver con como selccionoolas propiedades del Switch
 	//document.getElementById('output-switch-' + id).disabled = false;
-	//document.getElementById('output-switch-' + id).enabled = status;
-
-	// y se actualiza el estado y contenido de la etiqueta
+	//document.getElementById('output-switch-' + id).removeAttribute('disabled');
+	//document.getElementById('output-switch-' + id).parentNode.MaterialCheckbox.disable = false;
+	
 	document.getElementById('input-label-GPIO' + id).textContent = status;
 
 	// Igual el atributo disable y enable del switch esta dentro de la clase de switch
@@ -94,3 +118,4 @@ function updateSliderText(id, value) {
 	document.getElementById('slider-text-pwm-' + id).value = value;
 	document.getElementById('input-label-Freq').textContent = Math.round(1000000/value);
 }
+

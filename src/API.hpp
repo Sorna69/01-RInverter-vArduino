@@ -6,12 +6,10 @@ void setGPIO(const int id, bool state)
   Serial.print(id);
   Serial.print(": ");
   Serial.println(state);
+
   digitalWrite(id, state);
-  if (id == 22){
-  digitalWrite(LED_BUILTIN,digitalRead(DIS));
-}
-  //digitalWrite(LED_BUILTIN, state);
-  // Original
-  // digitalWrite(id, state);
-  // digitalWrite(22, state);
+  if (id == DIS)
+  {
+    digitalWrite(LED_BUILTIN, digitalRead(DIS));
+  }
 }
