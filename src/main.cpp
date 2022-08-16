@@ -32,6 +32,10 @@ void setup()
   digitalWrite(DIS, HIGH);
   digitalWrite(PWM_A, LOW);
   digitalWrite(PWM_B, LOW);
+
+  enablePCOUNTERCLK();
+  confGPIOPCNT();
+  confPCOUNTER();
 }
 
 void loop()
