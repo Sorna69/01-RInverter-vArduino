@@ -18,13 +18,10 @@ void setup()
   Serial.begin(115200);
   SPIFFS.begin();
 
-<<<<<<< HEAD
   // Conectar_WiFi_AP();
   Conectar_WiFi_STA();
-=======
   Conectar_WiFi_AP();
   //Conectar_WiFi_STA();
->>>>>>> 7c6edfd4a69af2150bccccff7d9e5a2573fd682e
   InitServer();
   InitWebSockets();
 
@@ -38,7 +35,6 @@ void setup()
   digitalWrite(PWM_A, LOW);
   digitalWrite(PWM_B, LOW);
 
-<<<<<<< HEAD
   enablePCOUNTERCLK();
 
   Serial.print("Registro PCOUNTer antes: ");
@@ -58,8 +54,7 @@ void setup()
   startPCOUNTER();
   //Serial.print("Registro PCOUNTer despues: ");
   //Serial.println(REG_READ(PCNT_CTRL_REG));
-=======
->>>>>>> 7c6edfd4a69af2150bccccff7d9e5a2573fd682e
+
 }
 
 void loop()
