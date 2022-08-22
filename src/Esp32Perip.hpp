@@ -148,6 +148,8 @@ void ResetStopPCOUNTER()
 {
     REG_SET_FIELD(PCNT_CTRL_REG, PCNT_PLUS_CNT_RST_U0, 1);
 }
+=======
+>>>>>>> 7c6edfd4a69af2150bccccff7d9e5a2573fd682e
 
 void enableMCPWCLK()
 {
