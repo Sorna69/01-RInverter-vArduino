@@ -1,5 +1,3 @@
-//#include "pwm.hpp"
-
 void setGPIO(const int id, bool state)
 {
   // char idChar[id.length()];
@@ -9,7 +7,11 @@ void setGPIO(const int id, bool state)
   Serial.print(": ");
   Serial.println(state);
   digitalWrite(id, state);
-  digitalWrite(22, state);
+
+  if (id == DIS)
+  {
+    digitalWrite(LED_BUILTIN, digitalRead(id));
+  }
 }
 
 // SE PODRIA UTILIZAR SOLO LA FUNCION setGPIO y dentro de esta diferenciar entre GPIO de uso genera y PWM (con un if)
@@ -38,7 +40,7 @@ void enablePWM(const int id, bool state)
       // digitalWrite(id, state);
     }
     break;
-    case 18:
+  case 18:
     if (state)
     {
       REG_SET_FIELD(GPIO_FUNC18_OUT_SEL_CFG_REG, GPIO_FUNC18_OUT_SEL, 33);
@@ -51,7 +53,7 @@ void enablePWM(const int id, bool state)
     }
     break;
 
-    default:
+  default:
     Serial.println("Error, no se reconoce el GPIO-PWM");
     break;
   }
