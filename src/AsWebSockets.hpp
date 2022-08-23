@@ -1,6 +1,5 @@
 AsyncWebSocket ws("/ws");
 
-
 // PROBAR SI EL FALLO EN ENABLE Y DISABLE TIENE QUE VER CON TRUE/FALSE VS ON/OFF
 
 // Comando enviados al fronte
@@ -73,45 +72,37 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
   Serial.print("Request: ");
   Serial.println(request);
 
-  String device = doc["device"];
+  String command = doc["command"];
 
-  if (device == "ESP32")
+  if (command == "setGPIO")
   {
-    String command = doc["command"];
+    // char iden[10];
+    // String id = doc["command"];
+    // id.toCharArray(iden,10);
+    const int id = doc["id"];
+    setGPIO(id, (bool)doc["status"]);
+    // Mensaje Confirmacion
+    updateGPIO(id, digitalRead(id), client->id());
+  }
+  else if (command == "enablePWM")
+  {
+    enablePWM((bool)doc["status"]);
+    // NECESITA SER MODIFICADO
+    // updateGPIO(id, digitalRead(id), client->id());
+  }
+  else if (command == "setPWM")
+  {
+    const int id = doc["id"];
+    const uint16_t Tpwm = (uint16_t)doc["pwm"];
+    setTpwm(id, Tpwm);
 
-    if (command == "setGPIO")
-    {
-      // char iden[10];
-      // String id = doc["command"];
-      // id.toCharArray(iden,10);
-      const int id = doc["id"];
-      setGPIO(id, (bool)doc["status"]);
-      // Mensaje Confirmacion
-      updateGPIO(id, digitalRead(id), client->id());
-    }
-     else   if (command == "enablePWM")
-    {
-      const int id = doc["id"];
-      enablePWM(id, (bool)doc["status"]);
-      // NECESITA SER MODIFICADO
-      //updateGPIO(id, digitalRead(id), client->id());
-    }
-    else if (command == "setPWM")
-    {
-      const int id = doc["id"];
-      const uint16_t Tpwm = (uint16_t)doc["pwm"];
-      setTpwm(id, Tpwm);
-
-      // setPWM(doc["id"], (uint16_t)doc["pwm"]);
-      // ws.textAll(request);
-    }
-    // echo
+    // setPWM(doc["id"], (uint16_t)doc["pwm"]);
     // ws.textAll(request);
-    // ws.text(client->id(),request);
   }
-
-  else
-  {
-    Serial.println("Dispositivo no reconocido");
+  else{
+    Serial.println("Comando no reconocido");
   }
+  // echo
+  // ws.textAll(request);
+  // ws.text(client->id(),request);
 }

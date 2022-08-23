@@ -25,7 +25,7 @@ function processReceived(data) {
 	json = JSON.parse(data)
 
 	if (json.command == 'updateGPIO') {
-		console.log ('Process updateGPIO. id:' +json.id + ' Status: ' +json.status);
+		console.log('Process updateGPIO. id:' + json.id + ' Status: ' + json.status);
 		updateGPIO(json.id, json.status);
 	}
 	else if (json.command == 'updateDATA') {
@@ -33,54 +33,12 @@ function processReceived(data) {
 	}
 
 	else {
-		console.log ('No se reconoce el mesaje');
+		console.log('No se reconoce el mesaje');
 	}
-}
-
-function sendGPIO(id, status) {
-
-	console.log("Function sedGPIOESP32Mod");
-
-	// Código adicional, para esperar confirmacion
-	// Cuando se envia un comando para activar/desactivar un PIN se deshabilita el switch (hasta recibir confirmacion)
-	// Esto no lo hago bien, creo que tiene que ver con como selecciono la propiedad del elemento Query?
-	//document.getElementById('output-switch-' + id).disabled = true;
-
-	// Código original, sin añadir control respuesta
-	let data = {
-		device: "ESP32",
-		command: "setGPIO",
-		id: id,
-		status: status
-	}
-
-	let json = JSON.stringify(data);
-	connection.send(json);
-}
-
-function enablePWM(id, status) {
-
-	console.log("Function sedGPIOESP32Mod");
-
-	// Código adicional, para esperar confirmacion
-	// Cuando se envia un comando para activar/desactivar un PIN se deshabilita el switch (hasta recibir confirmacion)
-	// Esto no lo hago bien, creo que tiene que ver con como selecciono la propiedad del elemento Query?
-	//document.getElementById('output-switch-' + id).disabled = true;
-
-	// Código original, sin añadir control respuesta
-	let data = {
-		device: "ESP32",
-		command: "enablePWM",
-		id: id,
-		status: status
-	}
-
-	let json = JSON.stringify(data);
-	connection.send(json);
 }
 
 function updateGPIO(id, status) {
-	console.log ('Funcion updateGPIO. id:' +id + ' Status: ' +status);
+	console.log('Funcion updateGPIO. id:' + id + ' Status: ' + status);
 
 	// Cuando se recibe el echo se vuelve a activar el boton/checkbox
 	// Esto tampo lo hago bien, creo que tiene que ver con como selccionoolas propiedades del Switch
@@ -99,14 +57,60 @@ function updateGPIO(id, status) {
 		document.getElementById('input-label-GPIO' + id).classList.add('Off-style');
 		document.getElementById('input-label-GPIO' + id).classList.remove('On-style');
 	}
-	
+
 }
+
+function updateDATA(pHData, tempData, modeData) {
+	document.getElementById('input-label-pH').textContent = pHData;
+	document.getElementById('input-label-temp').textContent = tempData;
+	document.getElementById('input-label-mode').textContent = modeData;
+}
+
+
+function sendGPIO(id, status) {
+
+	console.log("Function sedGPIOESP32Mod");
+
+	// Código adicional, para esperar confirmacion
+	// Cuando se envia un comando para activar/desactivar un PIN se deshabilita el switch (hasta recibir confirmacion)
+	// Esto no lo hago bien, creo que tiene que ver con como selecciono la propiedad del elemento Query?
+	//document.getElementById('output-switch-' + id).disabled = true;
+
+	// Código original, sin añadir control respuesta
+	let data = {
+		command: "setGPIO",
+		id: id,
+		status: status
+	}
+
+	let json = JSON.stringify(data);
+	connection.send(json);
+}
+
+function enablePWM(status) {
+
+	console.log("Function sedGPIOESP32Mod");
+
+	// Código adicional, para esperar confirmacion
+	// Cuando se envia un comando para activar/desactivar un PIN se deshabilita el switch (hasta recibir confirmacion)
+	// Esto no lo hago bien, creo que tiene que ver con como selecciono la propiedad del elemento Query?
+	//document.getElementById('output-switch-' + id).disabled = true;
+
+	// Código original, sin añadir control respuesta
+	let data = {
+		command: "enablePWM",
+		status: status
+	}
+
+	let json = JSON.stringify(data);
+	connection.send(json);
+}
+
 
 function sendTpwm(id, Tpwm) {
 	updateSliderText(id, Tpwm);
-	Timer_value = Tpwm*160;
+	Timer_value = Tpwm * 160;
 	let data = {
-		device: "ESP32",
 		command: "setPWM",
 		id: id,
 		pwm: Timer_value
@@ -116,14 +120,9 @@ function sendTpwm(id, Tpwm) {
 	connection.send(json);
 }
 
-function updateDATA(pHData, tempData, modeData) {
-	document.getElementById('input-label-pH').textContent = pHData;
-	document.getElementById('input-label-temp').textContent = tempData;
-	document.getElementById('input-label-mode').textContent = modeData;
-}
 
 function updateSliderText(id, value) {
 	document.getElementById('slider-pwm-' + id).value = value;
 	document.getElementById('slider-text-pwm-' + id).value = value;
-	document.getElementById('input-label-Freq').textContent = Math.round(1000000/value);
+	document.getElementById('input-label-Freq').textContent = Math.round(1000000 / value);
 }

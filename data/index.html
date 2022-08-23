@@ -17,14 +17,14 @@
 
     <div class="mdl-card mdl-shadow--2dp">
         <div class="mdl-card__title mdl-card--expand">
-            <h2 class="mdl-card__title-text">Interfaz proto-Alfa</h2>
+            <h2 class="mdl-card__title-text">R-I Interfaz v-Alfa</h2>
         </div>
 
         <div class="mdl-card__supporting-text">
-            <h6>Configuración</h6>
+            <h6>GATE DRIVER CONTROL</h6>
             <ul class="mdl-list mdl-shadow--2dp">
                 <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">GATE DRIVER DIS</span>
+                    <span class="mdl-list__item-primary-content">Gate Driver Disable</span>
                     <span class="mdl-list__item-secondary-action">
                         <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
                             <input id="output-switch-22" data-id="22" type="checkbox" class="mdl-switch__input" checked ="true"
@@ -34,44 +34,36 @@
                 </li>
                 <li class="mdl-list__item">
                     <span class="mdl-list__item-secondary-action">
-                        <label id="input-label-GPIO2" class="label-big Off-style">OFF</label>
+                        <label id="input-label-GPIO22" class="label-big Off-style">OFF</label>
                     </span>
                 </li>
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">PWM-A</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-                            <input id="pwm-switch-15" data-id="15" type="checkbox" class="mdl-switch__input" checked ="true"
-                                onchange="enablePWM(this.dataset.id, this.checked)" />
-                        </label>
-                    </span>
-                </li>
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">PWM-B</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-                            <input id="pwm-switch-18" data-id="18" type="checkbox" class="mdl-switch__input" checked ="true"
-                                onchange="enablePWM(this.dataset.id, this.checked)" />
-                        </label>
-                    </span>
-                </li>
+
             </ul>
         </div>
 
         <div class="mdl-card__supporting-text">
-            <h6>Controles</h6>
+            <h6>CONTROL PWM</h6>
             <ul class="mdl-list mdl-shadow--2dp">
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">PWM-ENABLE</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                            <input id="pwm-switch-15" data-id="15" type="checkbox" class="mdl-switch__input"
+                                onchange="enablePWM(this.checked)" />
+                        </label>
+                    </span>
+                </li>
                 <li class="mdl-list__item">
                     <span class="mdl-list__item-primary-content">Tpwm [us]</span>
                     <span class="mdl-list__item-secondary-action">
                         <div class="mdl-grid">
                             <div class="mdl-cell mdl-cell--10-col">
                                 <input id="slider-pwm-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
-                                    min="20" max="400" value="20" onchange="sendTpwm(this.dataset.id, this.value);">
+                                    min="16" max="400" value="16" onchange="sendTpwm(this.dataset.id, this.value);">
                             </div>
                             <div class="mdl-cell mdl-cell--2-col">
-                                <input id="slider-text-pwm-1" data-id="1" style="width:45px;" min="20" max="400"
-                                    value="20" onchange="sendTpwm(this.dataset.id, this.value);"></input>
+                                <input id="slider-text-pwm-1" data-id="1" style="width:25px;" min="16" max="400"
+                                    value="16" onchange="sendTpwm(this.dataset.id, this.value);"></input>
                             </div>
                         </div>
                     </span>
