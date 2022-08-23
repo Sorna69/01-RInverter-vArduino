@@ -1,5 +1,3 @@
-//#include "pwm.hpp"
-
 void setGPIO(const int id, bool state) {
   //char idChar[id.length()];
   //id.toCharArray(idChar, 10);
@@ -7,7 +5,9 @@ void setGPIO(const int id, bool state) {
   Serial.print(id);
   Serial.print(": ");
   Serial.println(state);
+
   digitalWrite(id, state);
+
   if(id == 22){
   digitalWrite(LED_BUILTIN, digitalRead(DIS));
   }
