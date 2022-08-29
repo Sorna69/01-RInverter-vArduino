@@ -66,7 +66,7 @@ function updateDATA(pHData, tempData, modeData) {
 	document.getElementById('input-label-mode').textContent = modeData;
 }
 
-
+ 
 function sendGPIO(id, status) {
 
 	console.log("Function sedGPIOESP32Mod");
