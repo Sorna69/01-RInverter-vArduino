@@ -21,8 +21,8 @@ void setup()
   Serial.begin(115200);
   SPIFFS.begin();
 
-  Conectar_WiFi_AP();
-  // Conectar_WiFi_STA();
+  //Conectar_WiFi_AP();
+  Conectar_WiFi_STA();
   InitServer();
   InitWebSockets();
 

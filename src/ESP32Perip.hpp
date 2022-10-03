@@ -148,10 +148,10 @@ void confMCPWM()
     REG_SET_FIELD(MCPWM_GEN0_B_REG(0), MCPWM_GEN0_B_UTEZ, 1); // PWM-0B LOW at UTEZ signal
     REG_SET_FIELD(MCPWM_GEN0_B_REG(0), MCPWM_GEN0_B_UTEA, 2); // PWM-0B HIGH at UTEA signal
 
-    Serial.print("GEN0A: ");
-    Serial.println(REG_READ(MCPWM_GEN0_A_REG(0)));
-    Serial.print("GEN0B: ");
-    Serial.println(REG_READ(MCPWM_GEN0_B_REG(0)));
+    //Serial.print("GEN0A: ");
+    //Serial.println(REG_READ(MCPWM_GEN0_A_REG(0)));
+    //Serial.print("GEN0B: ");
+    //Serial.println(REG_READ(MCPWM_GEN0_B_REG(0)));
     // MCPWN DeathTime conf
     REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_A_OUTBYPASS, 1);
     REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_B_OUTBYPASS, 1);
