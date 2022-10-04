@@ -129,7 +129,10 @@ void confMCPWM()
 
   // MCPWM_TIMER0_CFG0_REG(0)
   REG_SET_FIELD(MCPWM_TIMER0_CFG0_REG(0), MCPWM_TIMER0_PRESCALE, 0);
-  setTimer0Period(2667); // Para una frecuenca de 50kHz 2^15 = 1<<15¿?
+
+  //setTimer0Period(2667); // Para una frecuenca de 50kHz 2^15 = 1<<15¿?
+  setTimer0Period(2000); // Para una frecuenca de 80kHz 2^15 = 1<<15¿?
+
   REG_SET_FIELD(MCPWM_TIMER0_CFG0_REG(0), MCPWM_TIMER0_PERIOD_UPMETHOD, 0);
   // TIMER0_CFG1
   REG_SET_FIELD(MCPWM_TIMER0_CFG1_REG(0), MCPWM_TIMER0_START, 2); //  2: PWM timer0 starts and runs on
@@ -144,8 +147,10 @@ void confMCPWM()
 
   // PWM Operator 0 Configuration and Status
   // PWM_GEN0_STMP_CFG_REG
+
   REG_SET_FIELD(MCPWM_GEN0_STMP_CFG_REG(0), MCPWM_GEN0_A_UPMETHOD, BIT0); // Updating method for PWM generator 0 time stamp A’s active register. When all bits are set to 0: immediately; when bit0 is set to 1: TEZ
-  setDutyCicle(1333);
+  
+  setDutyCicle(1000);
 
   // MCPWM_GEN0_A_REG
   REG_SET_FIELD(MCPWM_GEN0_A_REG(0), MCPWM_GEN0_A_UTEZ, 2); // PWM-0A HIGH at UTEZ signal
