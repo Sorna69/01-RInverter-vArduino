@@ -1,5 +1,5 @@
 #define LED_BUILTIN 2
-#define DIS 22
+#define DIS_BUTTON 22
 
 
 // Configuración modo AP

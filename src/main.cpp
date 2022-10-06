@@ -31,14 +31,14 @@ void setup()
   enableMCPWMClck();
 
   confMCPWM();
+  confDtSM();
   confMCPWMGPIO();
-  confDtMCPWM();
-
+  
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(22, OUTPUT);
+  pinMode(DIS_BUTTON, OUTPUT);
 
   digitalWrite(LED_BUILTIN, HIGH);
-  digitalWrite(22, HIGH);
+  digitalWrite(DIS_BUTTON, HIGH);
 }
 
 void loop()
