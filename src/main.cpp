@@ -7,6 +7,8 @@
 #include <soc/mcpwm_reg.h>
 #include <soc/mcpwm_struct.h>
 
+#include "driver/mcpwm.h"
+
 #include "Config.h"
 
 #include "ESP32Perip.hpp"
@@ -27,8 +29,10 @@ void setup()
   InitWebSockets();
 
   enableMCPWMClck();
+
   confMCPWM();
   confMCPWMGPIO();
+  confDtMCPWM();
 
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(22, OUTPUT);
@@ -39,5 +43,4 @@ void setup()
 
 void loop()
 {
-
 }

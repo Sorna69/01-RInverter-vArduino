@@ -30,6 +30,15 @@ void setDutyCicle(uint16_t Duty)
   Serial.println(REG_GET_FIELD(MCPWM_GEN0_TSTMP_A_REG(0), MCPWM_GEN0_A));
 }
 
+void setPwmDT(uint16_t DTime)
+{
+  // Para las pruebas se puede utilizar un DTime de la mitad del Tpwm (desplazamiento 50%). Llamada desde Js
+  REG_SET_FIELD(MCPWM_DT0_RED_CFG_REG(0), MCPWM_DT0_RED, DTime);
+  REG_SET_FIELD(MCPWM_DT0_FED_CFG_REG(0), MCPWM_DT0_FED, DTime);
+  Serial.print("Pwm-Dt: ");
+  Serial.println(REG_GET_FIELD(MCPWM_DT0_FED_CFG_REG(0), MCPWM_DT0_FED));
+}
+
 void leerTimer0()
 {
   Serial.print("Valor del Registro Timer0: ");
@@ -44,6 +53,7 @@ void enableMCPWMClck()
   DPORT_REG_SET_BIT(DPORT_PERIP_CLK_EN_REG, DPORT_PWM0_CLK_EN);
   Serial.print(" REGISTRO HABILITACION MCPWM: ");
   Serial.println(DPORT_REG_READ(DPORT_PERIP_CLK_EN_REG));
+
   DPORT_REG_SET_BIT(DPORT_PERIP_RST_EN_REG, DPORT_PWM0_RST);
   DPORT_REG_CLR_BIT(DPORT_PERIP_RST_EN_REG, DPORT_PWM0_RST);
   DPORT_REG_READ(DPORT_AHBLITE_MPU_TABLE_PWM0_REG);
@@ -82,19 +92,17 @@ void confMCPWMGPIO()
   // Configuracion GPIO15/18 como Salida PWM0a (Func32/33)
   //  1a) Conecta GPIO15/18 con las funciones 32/33 (PWM0A/B) (Control del GPIO al PERIFERICO)
   // Para un valor de 256 el control de la HABILITACION y VALOR de salida vuelven a los registros
-  // REG_SET_FIELD(GPIO_FUNC15_OUT_SEL_CFG_REG, GPIO_FUNC15_OUT_SEL, 32);
-  // REG_SET_FIELD(GPIO_FUNC18_OUT_SEL_CFG_REG, GPIO_FUNC18_OUT_SEL, 33);
+  REG_SET_FIELD(GPIO_FUNC15_OUT_SEL_CFG_REG, GPIO_FUNC15_OUT_SEL, 32);
+  REG_SET_FIELD(GPIO_FUNC18_OUT_SEL_CFG_REG, GPIO_FUNC18_OUT_SEL, 33);
 
-  REG_SET_FIELD(GPIO_FUNC15_OUT_SEL_CFG_REG, GPIO_FUNC15_OUT_SEL, 256);
-  REG_SET_FIELD(GPIO_FUNC18_OUT_SEL_CFG_REG, GPIO_FUNC18_OUT_SEL, 256);
-  // GPI18 + GPIO18 OTU = LOW (clear)
-  REG_WRITE(GPIO_OUT_W1TC_REG, BIT18 + BIT15);
+  // REG_SET_FIELD(GPIO_FUNC15_OUT_SEL_CFG_REG, GPIO_FUNC15_OUT_SEL, 256);
+  // REG_SET_FIELD(GPIO_FUNC18_OUT_SEL_CFG_REG, GPIO_FUNC18_OUT_SEL, 256);
 
-  // 1b)
+  // 1 SI LAS SEÑALES SON SIEMPRE SALIDAS
+  // 1b.1)
   REG_SET_FIELD(GPIO_FUNC15_OUT_SEL_CFG_REG, GPIO_FUNC15_OEN_SEL, 1);
   REG_SET_FIELD(GPIO_FUNC18_OUT_SEL_CFG_REG, GPIO_FUNC18_OEN_SEL, 1);
-
-  // 1c)
+  // 1b.2)
   REG_SET_FIELD(GPIO_ENABLE_REG, GPIO_ENABLE_DATA, BIT15 + BIT18);
 
   Serial.print("Valor de GPIO_FUNC15_OUT_SEL_CFG_REG: ");
@@ -108,6 +116,7 @@ void confMCPWMGPIO()
   // 3a)
   // REG_SET_FIELD(PERIPHS_IO_MUX_MTDO_U, MCU_SEL, 2);
   REG_SET_FIELD(IO_MUX_GPIO15_REG, MCU_SEL, 2);
+  // REG_SET_FIELD(IO_MUX_GPIO18_REG, MCU_SEL, 2);
   // 3b)
   // REG_SET_FIELD(IO_MUX_GPIO15_REG,FUN_DRV,1);
   //  3c) Se omite
@@ -130,7 +139,7 @@ void confMCPWM()
   // MCPWM_TIMER0_CFG0_REG(0)
   REG_SET_FIELD(MCPWM_TIMER0_CFG0_REG(0), MCPWM_TIMER0_PRESCALE, 0);
 
-  //setTimer0Period(2667); // Para una frecuenca de 50kHz 2^15 = 1<<15¿?
+  // setTimer0Period(2667); // Para una frecuenca de 50kHz 2^15 = 1<<15¿?
   setTimer0Period(2000); // Para una frecuenca de 80kHz 2^15 = 1<<15¿?
 
   REG_SET_FIELD(MCPWM_TIMER0_CFG0_REG(0), MCPWM_TIMER0_PERIOD_UPMETHOD, 0);
@@ -149,24 +158,67 @@ void confMCPWM()
   // PWM_GEN0_STMP_CFG_REG
 
   REG_SET_FIELD(MCPWM_GEN0_STMP_CFG_REG(0), MCPWM_GEN0_A_UPMETHOD, BIT0); // Updating method for PWM generator 0 time stamp A’s active register. When all bits are set to 0: immediately; when bit0 is set to 1: TEZ
-  
+
   setDutyCicle(1000);
+  setPwmDT(500);
 
   // MCPWM_GEN0_A_REG
   REG_SET_FIELD(MCPWM_GEN0_A_REG(0), MCPWM_GEN0_A_UTEZ, 2); // PWM-0A HIGH at UTEZ signal
   REG_SET_FIELD(MCPWM_GEN0_A_REG(0), MCPWM_GEN0_A_UTEA, 1); // PWM-0A LOW at UTEA signal
+
   // MCPWM_GEN0_B_REG
-  REG_SET_FIELD(MCPWM_GEN0_B_REG(0), MCPWM_GEN0_B_UTEZ, 1); // PWM-0B LOW at UTEZ signal
-  REG_SET_FIELD(MCPWM_GEN0_B_REG(0), MCPWM_GEN0_B_UTEA, 2); // PWM-0B HIGH at UTEA signal
+  // REG_SET_FIELD(MCPWM_GEN0_B_REG(0), MCPWM_GEN0_B_UTEZ, 1); // PWM-0B LOW at UTEZ signal
+  // REG_SET_FIELD(MCPWM_GEN0_B_REG(0), MCPWM_GEN0_B_UTEA, 2); // PWM-0B HIGH at UTEA signal
 
   Serial.print("GEN0A: ");
   Serial.println(REG_READ(MCPWM_GEN0_A_REG(0)));
   Serial.print("GEN0B: ");
   Serial.println(REG_READ(MCPWM_GEN0_B_REG(0)));
   // MCPWN DeathTime conf
-  REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_A_OUTBYPASS, 1);
-  REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_B_OUTBYPASS, 1);
+  // REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_A_OUTBYPASS, 1);
+  // REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_B_OUTBYPASS, 1);
 }
+
+/*
+void confDtMCPWM()
+{
+  // PWMxAoutput = PWMxAinput (Bypass A inptu --> *S1 = 1) (* Valor Por defecto, no hay que cambiar)
+
+  // PWMxAoutput = !PWMxAinput(FED+RED) (Bypass A inptu --> S0 = *S4 = *S7 = 0; S3 = S8 = 1)
+  REG_SET_FIELD(MCPWM_DT0_RED_CFG_REG(0), MCPWM_DT0_B_OUTBYPASS, 0);   // S0
+  REG_SET_FIELD(MCPWM_DT0_RED_CFG_REG(0), MCPWM_DT0_FED_OUTINVERT, 0); // S3
+  // REG_SET_FIELD(MCPWM_DT0_RED_CFG_REG(0), MCPWM_DT0_FED_OUTINVERT, 1); // S3
+  REG_SET_FIELD(MCPWM_DT0_RED_CFG_REG(0), MCPWM_DT0_DEB_MODE, 1); // S8
+
+  // Update Methods (POR DEFECTO, INMEDIATO)
+  REG_SET_FIELD(MCPWM_DT0_RED_CFG_REG(0), MCPWM_DT0_RED_UPMETHOD, 0);
+  REG_SET_FIELD(MCPWM_DT0_RED_CFG_REG(0), MCPWM_DT0_FED_UPMETHOD, 0);
+
+  // Comprobación Registro
+  Serial.print("CONFIGURACION DT: ");
+  Serial.println(REG_READ(MCPWM_DT0_RED_CFG_REG(0)));
+}
+*/
+
+void confDtMCPWM()
+{
+  // PWMxAoutput = PWMxAinput (Bypass A inptu --> *S1 = 1) (* Valor Por defecto, no hay que cambiar)
+
+  // PWMxAoutput = !PWMxAinput(FED+RED) (Bypass A inptu --> S0 = *S4 = *S7 = 0; S3 = S8 = 1)
+  REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_B_OUTBYPASS, 0);      // S0
+  REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_FED_OUTINVERT, 0);    // S3
+  REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_FED_OUTINVERT, 1); // S3
+  REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_DEB_MODE, 1);         // S8
+
+  // Update Methods (POR DEFECTO, INMEDIATO)
+  REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_RED_UPMETHOD, 0);
+  REG_SET_FIELD(MCPWM_DT0_CFG_REG(0), MCPWM_DT0_FED_UPMETHOD, 0);
+
+  // Comprobación Registro
+  Serial.print("CONFIGURACION DT: ");
+  Serial.println(REG_READ(MCPWM_DT0_RED_CFG_REG(0)));
+}
+
 
 // SE PODRIA UTILIZAR SOLO LA FUNCION setGPIO y dentro de esta diferenciar entre GPIO de uso genera y PWM (con un if)
 void enablePWM(bool state)
@@ -191,7 +243,8 @@ void enablePWM(bool state)
     // GPI18 + GPIO18 OTU = LOW (clear)
     REG_WRITE(GPIO_OUT_W1TC_REG, BIT15 + BIT18);
   }
-  else{
+  else
+  {
     Serial.println("Error enable PWM");
   }
 }

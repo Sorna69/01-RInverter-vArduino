@@ -24,6 +24,7 @@ void setTpwm(int id, uint16_t pwm)
   
   setTimer0Period(pwm);
   setDutyCicle((uint16_t)pwm / 2);
+  setPwmDT((uint16_t)pwm / 4);
 
   // Lo que tenga que hacer el PWM, cambiar frecuencia y/o Duty Cicle
   // digitalWrite(id, state);
