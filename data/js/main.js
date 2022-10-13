@@ -66,7 +66,7 @@ function updateDATA(pHData, tempData, modeData) {
 	document.getElementById('input-label-mode').textContent = modeData;
 }
 
- 
+
 function sendGPIO(id, status) {
 
 	console.log("Function sedGPIOESP32Mod");
@@ -88,7 +88,7 @@ function sendGPIO(id, status) {
 }
 
 function enablePWM(status) {
-
+	// Reescribir añadiendo const id como parámetro (ID del PWM)--> Funcion genérica para todos PWMs
 	console.log("Function sedGPIOESP32Mod");
 
 	// Código adicional, para esperar confirmacion
