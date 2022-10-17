@@ -34,15 +34,15 @@ void updateData(char *Datos)
   ws.textAll(response);
 }
 
-void updateGPIO(int input, bool value, int id_cliente)
+void statusGPIO(const int output, bool value, int id_cliente)
 {
   // Si quisiese una sola funcion que generase respuesta, en lugar de VOID la harai con retur JSon
   // y enviaria la respuesta al final del bucle de ProcesssRequest.
   // Esto permitiría hacer una sola funcion para gestionar la respuesta al server
   String response;
   StaticJsonDocument<300> doc;
-  doc["command"] = "updateGPIO";
-  doc["id"] = input;
+  doc["command"] = "statusGPIO";
+  doc["id"] = output;
   doc["status"] = value ? String("ON") : String("OFF");
   serializeJson(doc, response);
 
@@ -53,7 +53,7 @@ void updateGPIO(int input, bool value, int id_cliente)
   Serial.print("updateGPIO. id_cliente: ");
   Serial.println(id_cliente);
   Serial.print("updateGPIO. id: ");
-  Serial.print(input);
+  Serial.print(output);
   Serial.println(value ? String(" ON") : String(" OFF"));
 }
 
@@ -110,7 +110,7 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
     const int id = doc["id"];
     setGPIO(id, (bool)doc["status"]);
     // Mensaje Confirmacion
-    updateGPIO(id, digitalRead(id), client->id());
+    statusGPIO(id, digitalRead(id), client->id());
   }
   else if (command == "enablePWM")
   {
@@ -156,7 +156,7 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
     client->ping();
 
     // al conectarse enviar los estados de los GPIO (Para mas estados incluir bucle)
-    updateGPIO(LED_BUILTIN, digitalRead(LED_BUILTIN), client->id());
+    statusGPIO(DIS_BUTTON, digitalRead(DIS_BUTTON), client->id());
   }
   else if (type == WS_EVT_DISCONNECT)
   {
