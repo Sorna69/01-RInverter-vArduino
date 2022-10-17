@@ -57,6 +57,27 @@ void statusGPIO(const int output, bool value, int id_cliente)
   Serial.println(value ? String(" ON") : String(" OFF"));
 }
 
+void initialStatus(const int output, bool value, int id_cliente)
+{
+
+  String response;
+  StaticJsonDocument<300> doc;
+  doc["command"] = "initialStatus";
+  doc["id"] = output;
+  doc["status"] = value ? String("ON") : String("OFF");
+  serializeJson(doc, response);
+
+  ws.textAll(response);
+  // Deberia ser posible enviar a un cliente concreto, pero no funciona
+  // sin embargo, si activo los 2 el mensaje se envia 2 veces
+  // ws.text(id_cliente, response);
+  Serial.print("initialStatus. id_cliente: ");
+  Serial.println(id_cliente);
+  Serial.print("initialStatus. id: ");
+  Serial.print(output);
+  Serial.println(value ? String(" ON") : String(" OFF"));
+}
+
 
 // Funciones para la gestión de los comandos enviados ¿DESDE FrontEnd?
 void setGPIO(const int id,const bool state)
@@ -156,7 +177,8 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
     client->ping();
 
     // al conectarse enviar los estados de los GPIO (Para mas estados incluir bucle)
-    statusGPIO(DIS_BUTTON, digitalRead(DIS_BUTTON), client->id());
+    //statusGPIO(DIS_BUTTON, digitalRead(DIS_BUTTON), client->id());
+    initialStatus(DIS_BUTTON, digitalRead(DIS_BUTTON), client->id());
   }
   else if (type == WS_EVT_DISCONNECT)
   {
