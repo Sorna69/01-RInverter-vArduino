@@ -70,22 +70,31 @@ function processReceived(data) {
 }
 */
 
-function desactivarControles(){
+function desactivarControles() {
 	const misCheckboxes = document.getElementsByClassName("miCheckbox");
 	const misSwitches = document.getElementsByClassName("mdl-switch__input");
-	for (let elemento of misCheckboxes) { elemento.disabled = true}; 
-	for (let elemento of misCheckboxes) { console.log(elemento)}; 
-	for (let elemento of misSwitches) { elemento.disabled = true}; 
-	for (let elemento of misSwitches) { console.log(elemento)}; 
+	for (let elemento of misCheckboxes) { elemento.disabled = true };
+	for (let elemento of misCheckboxes) { console.log(elemento) };
+	for (let elemento of misSwitches) { elemento.disabled = true };
+	for (let elemento of misSwitches) { console.log(elemento) };
 }
 
 function initialStatus(id, status) {
 	console.log('Funcion initialStatus. id:' + id + ' Status: ' + status);
 
-	document.getElementById('output-switch-' + id).disabled = false;
+
+	const misCheckboxes = document.getElementsByClassName("miCheckbox");
+	for (let elemento of misCheckboxes) { elemento.disabled = false };
+
+	// Switch (Checkbox) = not disabled (¿FALTA CAMBIAR LA ETIQUETA TAMBINE??)
 	const misSwitches = document.getElementsByClassName("mdl-switch__input");
-	for (let elemento of misSwitches) { elemento.disabled = false};
-	
+	for (let elemento of misSwitches) { elemento.disabled = false };
+	const misSwitchesTab = document.getElementsByClassName("mdl-switch mdl-js-switch mdl-js-ripple-effect");
+	for (let elemento of misSwitchesTab) { elemento.disabled = false };
+	// Por ahora solo hay uno y sería válido
+	//document.getElementById('output-switch-' + id).disabled = false;
+	//elemSw.disabled = false;
+
 	//const misSwitches = document.getElementsByClassName("mdl-switch__input");
 	//for (let elemento of misSwitches) { elemento.disabled = false}; 
 	//for (let elemento of misSwitches) { elemento.status = status}; 
@@ -98,14 +107,18 @@ function initialStatus(id, status) {
 		document.getElementById('input-label-GPIO' + id).classList.add('On-style');
 		document.getElementById('input-label-GPIO' + id).classList.remove('Off-style');
 		document.getElementById('output-switch-' + id).checked = true;
-
+		for (let elemento of misSwitches) { elemento.checked = true };
+		for (let elemento of misSwitches) { elemento.checkStatus = true };
+		for (let elemento of misSwitchesTab) { elemento.checked = true };
 	}
 	else {
 		document.getElementById('input-label-GPIO' + id).classList.add('Off-style');
 		document.getElementById('input-label-GPIO' + id).classList.remove('On-style');
 		document.getElementById('output-switch-' + id).checked = false;
+		for (let elemento of misSwitches) { elemento.checked = false };
+		for (let elemento of misSwitches) { elemento.checkStatus = false };
+		for (let elemento of misSwitchesTab) { elemento.checked = false };
 	}
-
 }
 
 function checkStatus(id, status) {
@@ -161,7 +174,7 @@ function sendGPIO(id, status) {
 
 function enablePWM(status) {
 	// Reescribir añadiendo const id como parámetro (ID del PWM)--> Funcion genérica para todos PWMs
-	console.log("Function sedGPIOESP32Mod");
+	console.log("Function enablePWM");
 
 	// Código adicional, para esperar confirmacion
 	// Cuando se envia un comando para activar/desactivar un PIN se deshabilita el switch (hasta recibir confirmacion)
@@ -191,7 +204,6 @@ function sendTpwm(id, Tpwm) {
 	let json = JSON.stringify(data);
 	connection.send(json);
 }
-
 
 function updateSliderText(id, value) {
 	document.getElementById('slider-pwm-' + id).value = value;
