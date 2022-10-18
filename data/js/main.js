@@ -91,45 +91,35 @@ function desactivarControles() {
 function initialStatus(id, status) {
 	console.log('Funcion initialStatus. id:' + id + ' Status: ' + status);
 
+	// se actualiza el estado y contenido de la etiqueta
+	document.getElementById('input-label-GPIO' + id).textContent = status;
 
 	const misCheckboxes = document.getElementsByClassName("miCheckbox");
 	for (let elemento of misCheckboxes) { elemento.disabled = false };
-
-	// Switch (Checkbox) = not disabled (¿FALTA CAMBIAR LA ETIQUETA TAMBINE??)
 	const misSwitches = document.getElementsByClassName("mdl-switch__input");
+	//const misSwitchesTab = document.getElementsByClassName("mdl-switch mdl-js-switch mdl-js-ripple-effect");
+
 	for (let elemento of misSwitches) { elemento.disabled = false };
-	const misSwitchesTab = document.getElementsByClassName("mdl-switch mdl-js-switch mdl-js-ripple-effect");
-	for (let elemento of misSwitchesTab) { elemento.disabled = false };
-	// Por ahora solo hay uno y sería válido
-	//document.getElementById('output-switch-' + id).disabled = false;
-	//elemSw.disabled = false;
 
-	//const misSwitches = document.getElementsByClassName("mdl-switch__input");
-	//for (let elemento of misSwitches) { elemento.disabled = false}; 
-	//for (let elemento of misSwitches) { elemento.status = status}; 
+	const myCheckbox = document.getElementById('label-pwm-switch-15');
 
-	// y se actualiza el estado y contenido de la etiqueta
-	document.getElementById('input-label-GPIO' + id).textContent = status;
 
 	// Igual el atributo disable y enable del switch esta dentro de la clase de switch
 	if (status == 'ON') {
 		document.getElementById('input-label-GPIO' + id).classList.add('On-style');
 		document.getElementById('input-label-GPIO' + id).classList.remove('Off-style');
 		document.getElementById('output-switch-' + id).checked = true;
-		for (let elemento of misSwitches) { elemento.checked = true };
-		for (let elemento of misSwitches) { elemento.checkStatus = true };
-		for (let elemento of misSwitchesTab) { elemento.checked = true };
-		for (let elemento of misSwitchesTab) { elemento.checkStatus = true };
+
+
+		myCheckbox.MaterialSwitch.on();
 
 	}
 	else {
 		document.getElementById('input-label-GPIO' + id).classList.add('Off-style');
 		document.getElementById('input-label-GPIO' + id).classList.remove('On-style');
 		document.getElementById('output-switch-' + id).checked = false;
-		for (let elemento of misSwitches) { elemento.checked = false };
-		for (let elemento of misSwitches) { elemento.checkStatus = false };
-		for (let elemento of misSwitchesTab) { elemento.checked = false };
-		for (let elemento of misSwitchesTab) { elemento.checkStatus = false };
+
+		myCheckbox.MaterialSwitch.off();
 	}
 }
 
