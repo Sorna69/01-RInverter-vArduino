@@ -1,19 +1,23 @@
 var connection = new WebSocket('ws://' + location.hostname + '/ws', ['arduino']);
 
+
+// FUNCIÓN PARA GESTIONAR MENSAJES RECIBIDOS DESDE ESP32
 const processReceived = (evento) => {
-	// Los mensajes JSon UpdateGPIO y UpdateDAYA son ENVIADOS DESDE API del ESP32 HACIA bakcend (servidor web)
-	// Los mensajes sendGPIO y sendPWM son ENVIADOS desde backend (aqui) HACIA API del ESP32 y este devuelve un echo!
+	// CON VUE?? SE PODRÍA HACER UN DATA CON LOS STATUS DE TODOS LOS ELEMENTSO?? (SERVIVIA UN JSON IGUALMNTE) 
 
 	json = JSON.parse(evento.data)
 
-	// CON VUE?? SE PODRÍA HACER UN DATA CON LOS STATUS DE TODOS LOS ELEMENTSO?? (SERVIVIA UN JSON IGUALMNTE)
-	if (json.command == 'initialStatus') {
+	if (json.command == 'conectionOk') {
+		console.log('initialStatus. id:' + json.id + ' Status: ' + json.status);
+		requestIntialStatus();
+	}
+	else if (json.command == 'initialStatus') {
 		console.log('initialStatus. id:' + json.id + ' Status: ' + json.status);
 		initialStatus(json.id, json.status);
 	}
 	else if (json.command == 'statusGPIO') {
 		console.log('statusGPIO. id:' + json.id + ' Status: ' + json.status);
-		checkStatus(json.id, json.status);
+		updateStatus(json.id, json.status);
 	}
 	else if (json.command == 'updateDATA') {
 		updateDATA(json.pHData, json.tempData, json.modeData);
@@ -27,6 +31,7 @@ const processReceived = (evento) => {
 connection.onopen = function () {
 	connection.send('Received from Client');
 	console.log('Connected');
+	//requestIntialStatus();
 };
 
 connection.onerror = function (error) {
@@ -35,12 +40,14 @@ connection.onerror = function (error) {
 
 connection.addEventListener('message', processReceived);
 
+
 /*
 connection.onmessage = function (e) {
 	console.log('Received from server: ', e.data);
 	processReceived(e.data);
 };
 */
+
 
 connection.onclose = function () {
 	//console.log('WebSocket connection closed');
@@ -70,6 +77,8 @@ function processReceived(data) {
 }
 */
 
+
+// FUNCIONES JS
 function desactivarControles() {
 	const misCheckboxes = document.getElementsByClassName("miCheckbox");
 	const misSwitches = document.getElementsByClassName("mdl-switch__input");
@@ -110,6 +119,8 @@ function initialStatus(id, status) {
 		for (let elemento of misSwitches) { elemento.checked = true };
 		for (let elemento of misSwitches) { elemento.checkStatus = true };
 		for (let elemento of misSwitchesTab) { elemento.checked = true };
+		for (let elemento of misSwitchesTab) { elemento.checkStatus = true };
+
 	}
 	else {
 		document.getElementById('input-label-GPIO' + id).classList.add('Off-style');
@@ -118,10 +129,11 @@ function initialStatus(id, status) {
 		for (let elemento of misSwitches) { elemento.checked = false };
 		for (let elemento of misSwitches) { elemento.checkStatus = false };
 		for (let elemento of misSwitchesTab) { elemento.checked = false };
+		for (let elemento of misSwitchesTab) { elemento.checkStatus = false };
 	}
 }
 
-function checkStatus(id, status) {
+function updateStatus(id, status) {
 	console.log('Funcion updateGPIO. id:' + id + ' Status: ' + status);
 
 	document.getElementById('output-switch-' + id).disabled = false;
@@ -150,6 +162,25 @@ function updateDATA(pHData, tempData, modeData) {
 	document.getElementById('input-label-mode').textContent = modeData;
 }
 
+function updateSliderText(id, value) {
+	document.getElementById('slider-pwm-' + id).value = value;
+	document.getElementById('slider-text-pwm-' + id).value = value;
+	document.getElementById('input-label-Freq').textContent = Math.round(1000000 / value);
+}
+
+// COMANDOS ENVIADOS AL ESP32
+function requestIntialStatus() {
+
+	console.log("Commad: requestIntialStatus");
+
+	// Código original, sin añadir control respuesta
+	let data = {
+		command: "requestIntialStatus"
+	}
+
+	let json = JSON.stringify(data);
+	connection.send(json);
+}
 
 function sendGPIO(id, status) {
 
@@ -191,7 +222,6 @@ function enablePWM(status) {
 	connection.send(json);
 }
 
-
 function sendTpwm(id, Tpwm) {
 	updateSliderText(id, Tpwm);
 	Timer_value = Tpwm * 160;
@@ -203,10 +233,9 @@ function sendTpwm(id, Tpwm) {
 
 	let json = JSON.stringify(data);
 	connection.send(json);
+
+	// Se podría esperar un mensaje d actualización antes de modificar el slider
+	//updateSliderText(id, Tpwm);
 }
 
-function updateSliderText(id, value) {
-	document.getElementById('slider-pwm-' + id).value = value;
-	document.getElementById('slider-text-pwm-' + id).value = value;
-	document.getElementById('input-label-Freq').textContent = Math.round(1000000 / value);
-}
+

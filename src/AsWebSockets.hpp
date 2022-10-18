@@ -2,7 +2,43 @@
 AsyncWebSocket ws("/ws");
 AsyncWebServer server(80);
 
-// Funciones para la gestión de los comandos enviados ¿HACIA FrontEnd?
+// Funciones generadoras de respuesta a los comandos
+void conectionOk(int id_cliente)
+{
+  String response;
+  StaticJsonDocument<300> doc;
+  doc["command"] = "conectionOk";
+  doc["client-id"] = id_cliente;
+  serializeJson(doc, response);
+
+  ws.textAll(response);
+  // Deberia ser posible enviar a un cliente concreto, pero no funciona
+  // sin embargo, si activo los 2 el mensaje se envia 2 veces
+  // ws.text(id_cliente, response);
+  Serial.print("connected to id_cliente: ");
+  Serial.println(id_cliente);
+}
+
+void initialStatus(const int output, bool value, int id_cliente)
+{
+  String response;
+  StaticJsonDocument<300> doc;
+  doc["command"] = "initialStatus";
+  doc["id"] = output;
+  doc["status"] = value ? String("ON") : String("OFF");
+  serializeJson(doc, response);
+
+  ws.textAll(response);
+  // Deberia ser posible enviar a un cliente concreto, pero no funciona
+  // sin embargo, si activo los 2 el mensaje se envia 2 veces
+  // ws.text(id_cliente, response);
+  Serial.print("initialStatus. id_cliente: ");
+  Serial.println(id_cliente);
+  Serial.print("initialStatus. id: ");
+  Serial.print(output);
+  Serial.println(value ? String(" ON") : String(" OFF"));
+}
+
 void updateData(char *Datos)
 {
   // MEJORA: Utilizar un Char (Array) en lugar de String e ¿incluir Status de los LEDS?
@@ -57,30 +93,8 @@ void statusGPIO(const int output, bool value, int id_cliente)
   Serial.println(value ? String(" ON") : String(" OFF"));
 }
 
-void initialStatus(const int output, bool value, int id_cliente)
-{
-
-  String response;
-  StaticJsonDocument<300> doc;
-  doc["command"] = "initialStatus";
-  doc["id"] = output;
-  doc["status"] = value ? String("ON") : String("OFF");
-  serializeJson(doc, response);
-
-  ws.textAll(response);
-  // Deberia ser posible enviar a un cliente concreto, pero no funciona
-  // sin embargo, si activo los 2 el mensaje se envia 2 veces
-  // ws.text(id_cliente, response);
-  Serial.print("initialStatus. id_cliente: ");
-  Serial.println(id_cliente);
-  Serial.print("initialStatus. id: ");
-  Serial.print(output);
-  Serial.println(value ? String(" ON") : String(" OFF"));
-}
-
-
-// Funciones para la gestión de los comandos enviados ¿DESDE FrontEnd?
-void setGPIO(const int id,const bool state)
+// Funciones para la gestión de los comandos recibidos
+void setGPIO(const int id, const bool state)
 {
   // char idChar[id.length()];
   // id.toCharArray(idChar, 10);
@@ -96,17 +110,18 @@ void setGPIO(const int id,const bool state)
   }
 }
 
-void setTpwm(const int id,const uint16_t pwm)
+void setTpwm(const int id, const uint16_t pwm)
 {
   Serial.print("Set PWM ");
   Serial.print(id);
   Serial.print(": ");
   Serial.println(pwm);
-  
+
   setTimer0Period(pwm);
   setDutyCicle((uint16_t)pwm / 2);
   setPwmDT((uint16_t)pwm / 4);
 }
+
 
 void ProcessRequest(AsyncWebSocketClient *client, String request)
 {
@@ -123,14 +138,18 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
 
   String command = doc["command"];
 
-  if (command == "setGPIO")
+  if (command == "requestIntialStatus")
+  {
+    initialStatus(DIS_BUTTON, digitalRead(DIS_BUTTON), client->id());
+  }
+  else if (command == "setGPIO")
   {
     // char iden[10];
     // String id = doc["command"];
     // id.toCharArray(iden,10);
     const int id = doc["id"];
     setGPIO(id, (bool)doc["status"]);
-    // Mensaje Confirmacion
+    // Mensaje Confirmacion/Respuesta
     statusGPIO(id, digitalRead(id), client->id());
   }
   else if (command == "enablePWM")
@@ -159,13 +178,12 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
 // AsyncWebServer y AsyncWebSocketUtil
 void initServer()
 {
-	server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
+  server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
 
-	server.onNotFound([](AsyncWebServerRequest *request) {
-		request->send(400, "text/plain", "Not found");
-	});
+  server.onNotFound([](AsyncWebServerRequest *request)
+                    { request->send(400, "text/plain", "Not found"); });
 
-	server.begin();
+  server.begin();
   Serial.println("HTTP server started");
 }
 
@@ -175,10 +193,8 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
   {
     Serial.printf("ws[%s][%u] connect\n", server->url(), client->id());
     client->ping();
-
-    // al conectarse enviar los estados de los GPIO (Para mas estados incluir bucle)
-    //statusGPIO(DIS_BUTTON, digitalRead(DIS_BUTTON), client->id());
-    initialStatus(DIS_BUTTON, digitalRead(DIS_BUTTON), client->id());
+    // Al conectarse un cliente, se envía un mensaje de confirmación
+    conectionOk(client->id());
   }
   else if (type == WS_EVT_DISCONNECT)
   {
@@ -251,7 +267,8 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
   }
 }
 
-void initWebSockets(){
+void initWebSockets()
+{
   ws.onEvent(onWsEvent);
   server.addHandler(&ws);
   Serial.println("WebSocket server started");
