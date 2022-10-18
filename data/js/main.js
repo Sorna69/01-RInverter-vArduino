@@ -237,5 +237,3 @@ function sendTpwm(id, Tpwm) {
 	// Se podría esperar un mensaje d actualización antes de modificar el slider
 	//updateSliderText(id, Tpwm);
 }
-
-
