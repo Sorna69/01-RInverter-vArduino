@@ -94,7 +94,7 @@ void statusGPIO(const int output, bool value, int id_cliente)
 }
 
 // Funciones para la gestión de los comandos recibidos
-void setGPIO(const int id, const bool state)
+void fSetGPIO(const int id, const bool state)
 {
   // char idChar[id.length()];
   // id.toCharArray(idChar, 10);
@@ -152,7 +152,7 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
 
     if (doc["tipo"] == "GPIO")
     {
-      setGPIO(id, (bool)doc["status"]);
+      fSetGPIO(id, (bool)doc["status"]);
       // Mensaje Confirmacion/Respuesta
       // Para que estuviese mejor realmente harúia falta un IF (IF STATUS = digital Read entonces responder)
       statusGPIO(id, digitalRead(id), client->id());
@@ -175,6 +175,75 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
   else
   {
     Serial.println("Comando no reconocido");
+  }
+  // echo
+  // ws.textAll(request);
+  // ws.text(client->id(),request);
+}
+
+void ProcessRequestMod(AsyncWebSocketClient *client, String request)
+{
+  enum ecommand
+  {
+    requestIntialStatus,
+    setGPIO,
+    setPWM
+  };
+
+  StaticJsonDocument<200> doc;
+  DeserializationError error = deserializeJson(doc, request);
+
+  // char iden[10];
+  // String id = doc["command"];
+  // id.toCharArray(iden,10);
+  // const String tipo = doc["tipo"]
+  const int id = doc["id"];
+  ecommand command = doc["command"];
+
+  if (error)
+  {
+    return;
+  }
+
+  Serial.println("1) Subrutina ProcessRequest");
+  Serial.print("Request: ");
+  Serial.println(request);
+
+  switch (command)
+  {
+  case requestIntialStatus:
+    initialStatus(DIS_BUTTON, digitalRead(DIS_BUTTON), client->id());
+    break;
+
+  case setGPIO:
+  {
+    if (doc["tipo"] == "GPIO")
+    {
+      fSetGPIO(id, (bool)doc["status"]);
+      // Mensaje Confirmacion/Respuesta
+      // Para que estuviese mejor realmente harúia falta un IF (IF STATUS = digital Read entonces responder)
+      statusGPIO(id, digitalRead(id), client->id());
+    }
+    else if (doc["tipo"] == "pwm")
+    {
+      enablePWM((bool)doc["status"]);
+      // NECESITA MEJORA?
+      statusGPIO(id, digitalRead(id), client->id());
+    }
+    break;
+  }
+
+  case setPWM:
+  {
+    const uint16_t Tpwm = (uint16_t)doc["pwm"];
+    setTpwm(id, Tpwm);
+    // ws.textAll(request);
+    break;
+  }
+
+  default:
+    Serial.println("Comando no reconocido");
+    break;
   }
   // echo
   // ws.textAll(request);
