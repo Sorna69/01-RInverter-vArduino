@@ -122,7 +122,6 @@ void setTpwm(const int id, const uint16_t pwm)
   setPwmDT((uint16_t)pwm / 4);
 }
 
-
 void ProcessRequest(AsyncWebSocketClient *client, String request)
 {
   StaticJsonDocument<200> doc;
@@ -142,6 +141,7 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
   {
     initialStatus(DIS_BUTTON, digitalRead(DIS_BUTTON), client->id());
   }
+
   else if (command == "setGPIO")
   {
     // char iden[10];
@@ -151,12 +151,23 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
     setGPIO(id, (bool)doc["status"]);
     // Mensaje Confirmacion/Respuesta
     statusGPIO(id, digitalRead(id), client->id());
+
+/*
+    if (doc["tipo"] == "GPIO")
+    {
+      // statusGPIO(id, digitalRead(id), client->id());
+    }
+    else if (doc["tipo"] == "pwm")
+    {
+    }
+*/
+  
   }
   else if (command == "enablePWM")
   {
     enablePWM((bool)doc["status"]);
     // NECESITA MEJORA?
-    // updateGPIO(id, digitalRead(id), client->id());
+    // statusGPIO(id, digitalRead(id), client->id());
   }
   else if (command == "setPWM")
   {
@@ -173,7 +184,6 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
   // ws.textAll(request);
   // ws.text(client->id(),request);
 }
-
 
 // AsyncWebServer y AsyncWebSocketUtil
 void initServer()

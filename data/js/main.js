@@ -16,8 +16,8 @@ const processReceived = (evento) => {
 		initialStatus(json.id, json.status);
 	}
 	else if (json.command == 'statusGPIO') {
-		console.log('statusGPIO. id:' + json.id + ' Status: ' + json.status);
-		updateStatus(json.id, json.status);
+		console.log('(ProcessReceived) statusGPIO. id:' + json.id + ' Status: ' + json.status);
+		updateGpioStatus(json.id, json.status);
 	}
 	else if (json.command == 'updateDATA') {
 		updateDATA(json.pHData, json.tempData, json.modeData);
@@ -40,7 +40,6 @@ connection.onerror = function (error) {
 
 connection.addEventListener('message', processReceived);
 
-
 /*
 connection.onmessage = function (e) {
 	console.log('Received from server: ', e.data);
@@ -51,7 +50,7 @@ connection.onmessage = function (e) {
 
 connection.onclose = function () {
 	//console.log('WebSocket connection closed');
-	alert('WebSocket connection closed');
+	//alert('WebSocket connection closed');
 	desactivarControles();
 };
 
@@ -80,70 +79,50 @@ function processReceived(data) {
 
 // FUNCIONES JS
 function desactivarControles() {
-	const misCheckboxes = document.getElementsByClassName("miCheckbox");
+	// Se DESHABILITAN los SWITCH. 2 Opciones: atributo HTML o funcion JS
+	//document.querySelector("#label-output-switch-15").MaterialSwitch.disable();
+	//for (let elemento of misSwitchesLab) { elemento.MaterialSwitch.disable()};
 	const misSwitches = document.getElementsByClassName("mdl-switch__input");
-	for (let elemento of misCheckboxes) { elemento.disabled = true };
-	for (let elemento of misCheckboxes) { console.log(elemento) };
 	for (let elemento of misSwitches) { elemento.disabled = true };
-	for (let elemento of misSwitches) { console.log(elemento) };
 }
 
 function initialStatus(id, status) {
 	console.log('Funcion initialStatus. id:' + id + ' Status: ' + status);
 
-	// se actualiza el estado y contenido de la etiqueta
-	document.getElementById('input-label-GPIO' + id).textContent = status;
+	// Se HABILITAN los controles (SWITCH). 2 Opciones: atributo HTML o funcion JS 
+	//const misSwitches = document.querySelectorAll(".mdl-switch__input");
+	//for (let elemento of misSwitches) { elemento.disabled = false };
+	const misSwitchesLab = document.querySelectorAll(".mdl-switch")
+	for (let elemento of misSwitchesLab) {elemento.MaterialSwitch.enable()};
 
-	const misCheckboxes = document.getElementsByClassName("miCheckbox");
-	for (let elemento of misCheckboxes) { elemento.disabled = false };
-	const misSwitches = document.getElementsByClassName("mdl-switch__input");
-	//const misSwitchesTab = document.getElementsByClassName("mdl-switch mdl-js-switch mdl-js-ripple-effect");
-
-	for (let elemento of misSwitches) { elemento.disabled = false };
-
-	const myCheckbox = document.getElementById('label-pwm-switch-15');
-
-
+	// PARA DESPUES, REVISAR TODOS LOS SIWTHC:
+	/* for (let elemento of misSiwthc){
+		if (index.statud == ON){elemento.MaterialSwitch.on();}
+		else if (status == OFF){elemento.MaterialSwithc.off();}
+	}
+	*/
 	// Igual el atributo disable y enable del switch esta dentro de la clase de switch
 	if (status == 'ON') {
-		document.getElementById('input-label-GPIO' + id).classList.add('On-style');
-		document.getElementById('input-label-GPIO' + id).classList.remove('Off-style');
-		document.getElementById('output-switch-' + id).checked = true;
-
-
-		myCheckbox.MaterialSwitch.on();
+		//misSwitchesLab.MaterialSwitch.on();
+		for (let elemento of misSwitchesLab) { elemento.MaterialSwitch.on() };
 
 	}
 	else {
-		document.getElementById('input-label-GPIO' + id).classList.add('Off-style');
-		document.getElementById('input-label-GPIO' + id).classList.remove('On-style');
-		document.getElementById('output-switch-' + id).checked = false;
-
-		myCheckbox.MaterialSwitch.off();
+		//misSwitchesLab.MaterialSwitch.off();
+		for (let elemento of misSwitchesLab) { elemento.MaterialSwitch.off() };
 	}
 }
 
-function updateStatus(id, status) {
-	console.log('Funcion updateGPIO. id:' + id + ' Status: ' + status);
+function updateGpioStatus(id, status) {
+	console.log('Funcion updateGpioStatus. id:' + id + ' Status: ' + status);
 
-	document.getElementById('output-switch-' + id).disabled = false;
+	// Una vez se recibe la respuesta desde el esp32, se HABILITAN los controles (SWITCH). 2 Opciones: atributo HTML o funcion JS 
+	//document.querySelector("#output-switch-" +id).disable = false;
+	document.querySelector("#label-output-switch-" + id).MaterialSwitch.enable();
+}
 
-	//const misSwitches = document.getElementsByClassName("mdl-switch__input");
-	//for (let elemento of misSwitches) { elemento.disabled = false}; 
-
-	// y se actualiza el estado y contenido de la etiqueta
-	document.getElementById('input-label-GPIO' + id).textContent = status;
-
-	// Igual el atributo disable y enable del switch esta dentro de la clase de swithc
-	if (status == 'ON') {
-		document.getElementById('input-label-GPIO' + id).classList.add('On-style');
-		document.getElementById('input-label-GPIO' + id).classList.remove('Off-style');
-	}
-	else {
-		document.getElementById('input-label-GPIO' + id).classList.add('Off-style');
-		document.getElementById('input-label-GPIO' + id).classList.remove('On-style');
-	}
-
+function updatePwmStatus(id, status) {
+/* SE UTILIZARÁ PARA CONFIRMAR LOS VALORES DE FRECUENCIA Y PERIDOD, SI FUERE NECESARIO */
 }
 
 function updateDATA(pHData, tempData, modeData) {
@@ -172,20 +151,18 @@ function requestIntialStatus() {
 	connection.send(json);
 }
 
-function sendGPIO(id, status) {
+function sendGPIO(id,tipo,status) {
 
-	console.log("Function sedGPIOESP32Mod");
+	console.log("Function setGPIOESP32Mod");
 
-	// Código adicional, para esperar confirmacion
-	// Cuando se envia un comando para activar/desactivar un PIN se deshabilita el switch (hasta recibir confirmacion)
-	// Esto no lo hago bien, creo que tiene que ver con como selecciono la propiedad del elemento Query?
+	// Se DESACTIVA el control (SWITCH) ASOCIADO. Al recibir confirmacion [Funcion updateGpioStatus] se ACTIVA nuevamente.
+	document.querySelector("#label-output-switch-" + id).MaterialSwitch.disable();
+	//document.querySelector("#output-switch-" + id).disabled = true;
 
-	document.getElementById('output-switch-' + id).disabled = true;
-
-	// Código original, sin añadir control respuesta
 	let data = {
 		command: "setGPIO",
 		id: id,
+		tipo:tipo,
 		status: status
 	}
 

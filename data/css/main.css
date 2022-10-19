@@ -15,3 +15,8 @@
 .Off-style {
 	background-color: #b60205;
 }
+
+/*Desactiva el efecto ripple en los switch: ESTÁ BUGGEADO*/
+.mdl-switch__input{
+    visibility: hidden !important;
+}

@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
-    <body onload="desactivarControles()">
+    <body>
         <link rel="stylesheet" href="vendor/google-fonts.css">
         <link rel="stylesheet" href="vendor/material.css">
         <link rel="stylesheet" href="css/main.css">
@@ -27,18 +27,12 @@
                     <li class="mdl-list__item">
                         <span class="mdl-list__item-primary-content">Gate Driver Disable</span>
                         <span class="mdl-list__item-secondary-action">
-                            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for = "output-switch-22" " id = "label-output-switch-22"  >
-                                <input type="checkbox" class=" miCheckbox" id="output-switch-22" data-id="22"
-                                    onchange="sendGPIO(this.dataset.id, this.checked)" />
+                            <label class="mdl-switch mdl-js-switch" for="output-switch-22" " id = "label-output-switch-22">
+                                <input type="checkbox" class="mdl-switch__input" id="output-switch-22" data-id="22"
+                                    onchange="sendGPIO(this.dataset.id, 'GPIO', this.checked)" disabled />
                             </label>
                         </span>
                     </li>
-                    <li class="mdl-list__item">
-                        <span class="mdl-list__item-secondary-action">
-                            <label id="input-label-GPIO22" class="label-big Off-style">OFF</label>
-                        </span>
-                    </li>
-
                 </ul>
             </div>
 
@@ -48,9 +42,10 @@
                     <li class="mdl-list__item">
                         <span class="mdl-list__item-primary-content">PWM-ENABLE</span>
                         <span class="mdl-list__item-secondary-action">
-                            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for = "pwm-switch-15" id = "label-pwm-switch-15" >
-                                <input type="checkbox" class="mdl-switch__input" data-id="15" id="pwm-switch-15" 
-                                    onchange="enablePWM(this.checked)" />
+                            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="output-switch-15"
+                                id="label-pwm-switch-15">
+                                <input type="checkbox" class="mdl-switch__input" id="output-switch-15" data-id="15"
+                                    onchange="enablePWM(this.checked)" disabled/>
                             </label>
                         </span>
                     </li>
