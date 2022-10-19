@@ -148,27 +148,23 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
     // String id = doc["command"];
     // id.toCharArray(iden,10);
     const int id = doc["id"];
-    setGPIO(id, (bool)doc["status"]);
-    // Mensaje Confirmacion/Respuesta
-    statusGPIO(id, digitalRead(id), client->id());
+    // const String tipo = doc["tipo"]
 
-/*
     if (doc["tipo"] == "GPIO")
     {
-      // statusGPIO(id, digitalRead(id), client->id());
+      setGPIO(id, (bool)doc["status"]);
+      // Mensaje Confirmacion/Respuesta
+      // Para que estuviese mejor realmente harúia falta un IF (IF STATUS = digital Read entonces responder)
+      statusGPIO(id, digitalRead(id), client->id());
     }
     else if (doc["tipo"] == "pwm")
     {
+      enablePWM((bool)doc["status"]);
+      // NECESITA MEJORA?
+      statusGPIO(id, digitalRead(id), client->id());
     }
-*/
-  
   }
-  else if (command == "enablePWM")
-  {
-    enablePWM((bool)doc["status"]);
-    // NECESITA MEJORA?
-    // statusGPIO(id, digitalRead(id), client->id());
-  }
+
   else if (command == "setPWM")
   {
     const int id = doc["id"];

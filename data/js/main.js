@@ -162,7 +162,7 @@ function sendGPIO(id,tipo,status) {
 	let data = {
 		command: "setGPIO",
 		id: id,
-		tipo:tipo,
+		tipo: tipo,
 		status: status
 	}
 

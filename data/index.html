@@ -42,10 +42,9 @@
                     <li class="mdl-list__item">
                         <span class="mdl-list__item-primary-content">PWM-ENABLE</span>
                         <span class="mdl-list__item-secondary-action">
-                            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="output-switch-15"
-                                id="label-pwm-switch-15">
+                            <label class="mdl-switch mdl-js-switch" for="output-switch-15" id="label-output-switch-15">
                                 <input type="checkbox" class="mdl-switch__input" id="output-switch-15" data-id="15"
-                                    onchange="enablePWM(this.checked)" disabled/>
+                                    onchange="sendGPIO(this.dataset.id,'pwm',this.checked)" disabled />
                             </label>
                         </span>
                     </li>
