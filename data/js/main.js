@@ -8,7 +8,7 @@ const processReceived = (evento) => {
 	json = JSON.parse(evento.data)
 
 	if (json.command == 'conectionOk') {
-		console.log('initialStatus. id:' + json.id + ' Status: ' + json.status);
+		// Cuando se recibe el comando de conectionOK del ESP32 se pide el valor de los estados iniciales
 		requestIntialStatus();
 	}
 	else if (json.command == 'initialStatus') {
