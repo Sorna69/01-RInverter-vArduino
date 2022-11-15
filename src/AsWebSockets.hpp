@@ -205,15 +205,17 @@ void ProcessRequestMod(AsyncWebSocketClient *client, String request)
     return;
   }
 
-  Serial.println("1) Subrutina ProcessRequest");
+  Serial.println("1) Subrutina ProcessRequestMod");
   Serial.print("Request: ");
   Serial.println(request);
 
   switch (command)
   {
   case requestIntialStatus:
+  {
     initialStatus(DIS_BUTTON, digitalRead(DIS_BUTTON), client->id());
-    break;
+  }
+  break;
 
   case setGPIO:
   {
@@ -307,7 +309,8 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
       }
 
       if (info->opcode == WS_TEXT)
-        ProcessRequest(client, msg);
+        // ProcessRequest(client, msg);
+        ProcessRequestMod(client, msg);
     }
     else
     {
@@ -335,7 +338,8 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
         if (info->final)
         {
           if (info->message_opcode == WS_TEXT)
-            ProcessRequest(client, msg);
+            // ProcessRequest(client, msg);
+            ProcessRequestMod(client, msg);
         }
       }
     }
