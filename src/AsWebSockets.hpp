@@ -39,7 +39,7 @@ void updateDataMod(char *Datos)
 
 void updateGPIO(int input, bool value, int id_cliente)
 {
-  // Si quisiese una sola funcion que generase respuesta, en lugar de VOID la harai con retur JSon
+  // Si quisiese una sola funcion que generase respuesta, en lugar de VOID la escribiría con retur JSon
   // y enviaria la respuesta al final del bucle de ProcesssRequest.
   // Esto permitiría hacer una sola funcion para gestionar la respuesta al server
   String response;
@@ -105,6 +105,28 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
       // setPWM(doc["id"], (uint16_t)doc["pwm"]);
       // ws.textAll(request);
     }
+
+
+    //COMANDOS NUEVOS, REVISAR
+    else if (command == "setDuty")
+    {
+      const int id = doc["id"];
+      const uint16_t duty = (uint16_t)doc["Duty"];
+      setDuty(id, duty);
+
+      // setPWM(doc["id"], (uint16_t)doc["pwm"]);
+      // ws.textAll(request);
+    }
+
+    else if (command == "setPWM")
+    {
+      const int id = doc["id"];
+      const uint16_t dac = (uint16_t)doc["DAC"];
+      setDAC(id, dac);
+    }
+
+    //FIN COMANDOS NUEVOS
+
     // echo
     // ws.textAll(request);
     // ws.text(client->id(),request);

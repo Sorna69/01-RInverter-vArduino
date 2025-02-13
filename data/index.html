@@ -62,24 +62,69 @@
             <h6>Controles</h6>
             <ul class="mdl-list mdl-shadow--2dp">
                 <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">MOTOR ON/OFF</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                            <input id="motor-switch" data-id="04" type="checkbox" class="mdl-switch__input" checked ="true"
+                                onchange="sendGPIO(this.dataset.id, this.checked)" />
+                        </label>
+                    </span>
+                </li>
+                <li class="mdl-list__item">
                     <span class="mdl-list__item-primary-content">Tpwm [us]</span>
                     <span class="mdl-list__item-secondary-action">
                         <div class="mdl-grid">
                             <div class="mdl-cell mdl-cell--10-col">
                                 <input id="slider-pwm-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
-                                    min="15" max="400" value="15" onchange="sendTpwm(this.dataset.id, this.value);">
+                                    min="50" max="400" value="50" onchange="sendTpwm(this.dataset.id, this.value);">
                             </div>
                             <div class="mdl-cell mdl-cell--2-col">
-                                <input id="slider-text-pwm-1" data-id="1" style="width:30px;" min="15" max="400"
-                                    value="15" onchange="sendTpwm(this.dataset.id, this.value);"></input>
+                                <input id="slider-text-pwm-1" data-id="1" style="width:30px;" min="50" max="400"
+                                    value="50" onchange="sendTpwm(this.dataset.id, this.value);"></input>
                             </div>
                         </div>
                     </span>
                 </li>
+                
+<!-- ESTO ESTÁ TODAVÍA SIN IMPLEMENTAR -->
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">Duty [%]</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--10-col">
+                                <input id="slider-duty-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
+                                    min="0" max="100" value="50" onchange="sendDuty(this.dataset.id, this.value);">
+                            </div>
+                            <div class="mdl-cell mdl-cell--2-col">
+                                <input id="slider-text-duty-1" data-id="1" style="width:30px;" min="0" max="100"
+                                    value="50" onchange="sendDuty(this.dataset.id, this.value);"></input>
+                            </div>
+                        </div>
+                    </span>
+                </li>
+
+                <!-- ESTO ESTÁ TODAVÍA SIN IMPLEMENTAR -->
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">AO [mV]</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--10-col">
+                                <input id="slider-DAC-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
+                                    min="0" max="3300" value="0" step="100" onchange="sendDAC(this.dataset.id, this.value);">
+                            </div>
+                            <div class="mdl-cell mdl-cell--2-col">
+                                <input id="slider-text-DAC-1" data-id="1" style="width:30px;" min="0" max="3300"
+                                    value="0" step="100" onchange="sendDAC(this.dataset.id, this.value);"></input>
+                            </div>
+                        </div>
+                    </span>
+                </li>
+
+
                 <li class="mdl-list__item">
                     <span class="mdl-list__item-primary-content">Frecuencia</span>
                     <span class="mdl-list__item-secondary-action">
-                        <label id="input-label-Freq" class="label-big Off-style">---</label>
+                        <label id="input-label-pwm-1" class="label-big Off-style">---</label>
                     </span>
                 </li>
             </ul>

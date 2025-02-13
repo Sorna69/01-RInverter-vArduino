@@ -103,7 +103,7 @@ function updateGPIO(id, status) {
 }
 
 function sendTpwm(id, Tpwm) {
-	updateSliderText(id, Tpwm);
+	updateSliderText('pwm-', id, Tpwm);
 	Timer_value = Tpwm*160;
 	let data = {
 		device: "ESP32",
@@ -116,14 +116,48 @@ function sendTpwm(id, Tpwm) {
 	connection.send(json);
 }
 
+// ESTO ESTÁ SIN IMPLEMENTAR DEL TODO
+// HAy que ver como se traducen el Duty Cyle a valor de lo que sea
+function sendDuty(id, Duty) {
+	updateSliderText('duty-', id, Duty);
+	//Timer_value = Tpwm*160;
+	let data = {
+		device: "ESP32",
+		command: "setDuty",
+		id: id,
+		//SIN COMPLETAR
+		Duty: duty
+	}
+
+	let json = JSON.stringify(data);
+	connection.send(json);
+}
+
+// ESTO ESTÁ SIN IMPLEMENTAR DEL TODO
+// HAy que ver como se traducen el Duty Cyle a valor de lo que sea
+function sendDAC(id, Dac) {
+	updateSliderText('DAC-', id, Dac);
+	let data = {
+		device: "ESP32",
+		command: "setDAC",
+		id: id,
+		//SIN COMPLETAR
+		DAC: Dac
+	}
+
+	let json = JSON.stringify(data);
+	connection.send(json);
+}
+
+
 function updateDATA(pHData, tempData, modeData) {
 	document.getElementById('input-label-pH').textContent = pHData;
 	document.getElementById('input-label-temp').textContent = tempData;
 	document.getElementById('input-label-mode').textContent = modeData;
 }
 
-function updateSliderText(id, value) {
-	document.getElementById('slider-pwm-' + id).value = value;
-	document.getElementById('slider-text-pwm-' + id).value = value;
-	document.getElementById('input-label-Freq').textContent = Math.round(1000000/value);
+function updateSliderText(tipo, id, value) {
+	document.getElementById('slider-' +tipo + id).value = value;
+	document.getElementById('slider-text-' +tipo + id).value = value;
+	document.getElementById('input-label-' +tipo + id).textContent = Math.round(1000000/value);
 }
