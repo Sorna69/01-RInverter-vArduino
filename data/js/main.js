@@ -104,6 +104,7 @@ function updateGPIO(id, status) {
 
 function sendTpwm(id, Tpwm) {
 	updateSliderText('pwm-', id, Tpwm);
+	updateLabel('pwm-', id, Tpwm);
 	Timer_value = Tpwm*160;
 	let data = {
 		device: "ESP32",
@@ -126,7 +127,7 @@ function sendDuty(id, Duty) {
 		command: "setDuty",
 		id: id,
 		//SIN COMPLETAR
-		Duty: duty
+		Duty: Duty
 	}
 
 	let json = JSON.stringify(data);
@@ -159,5 +160,8 @@ function updateDATA(pHData, tempData, modeData) {
 function updateSliderText(tipo, id, value) {
 	document.getElementById('slider-' +tipo + id).value = value;
 	document.getElementById('slider-text-' +tipo + id).value = value;
+}
+
+function updateLabel(tipo, id, value) {
 	document.getElementById('input-label-' +tipo + id).textContent = Math.round(1000000/value);
 }
