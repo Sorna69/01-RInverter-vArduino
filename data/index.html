@@ -76,11 +76,11 @@
                         <div class="mdl-grid">
                             <div class="mdl-cell mdl-cell--10-col">
                                 <input id="slider-pwm-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
-                                    min="50" max="400" value="50" onchange="sendTpwm(this.dataset.id, this.value);">
+                                    min="50" max="400" value="50" onchange="sendPwm(this.dataset.id, this.value, 'slider-duty-1'.dataset.value);">
                             </div>
                             <div class="mdl-cell mdl-cell--2-col">
                                 <input id="slider-text-pwm-1" data-id="1" style="width:30px;" min="50" max="400"
-                                    value="50" onchange="sendTpwm(this.dataset.id, this.value);"></input>
+                                    value="50" onchange="sendPwm(this.dataset.id, this.value, 'slider-duty-1'.dataset.value);"></input>
                             </div>
                         </div>
                     </span>
@@ -93,11 +93,11 @@
                         <div class="mdl-grid">
                             <div class="mdl-cell mdl-cell--10-col">
                                 <input id="slider-duty-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
-                                    min="0" max="100" value="50" onchange="sendDuty(this.dataset.id, this.value);">
+                                    min="0" max="100" value="50" onchange="sendPwm(this.dataset.id,'slider-pwm-1'.dataset.value, this.value);">
                             </div>
                             <div class="mdl-cell mdl-cell--2-col">
                                 <input id="slider-text-duty-1" data-id="1" style="width:30px;" min="0" max="100"
-                                    value="50" onchange="sendDuty(this.dataset.id, this.value);"></input>
+                                    value="50" onchange="sendPwm(this.dataset.id,'slider-pwm-1'.dataset.value, this.value);"></input>
                             </div>
                         </div>
                     </span>

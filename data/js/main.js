@@ -102,9 +102,47 @@ function updateGPIO(id, status) {
 	
 }
 
+
+function sendPwm(id, Tpwm, Duty) {
+	// No estoy actualizando bien los valores de Slider y Text. Pero no tiene sentido que no fucniones
+	updateSliderText('pwm-', id, Tpwm);
+	updateLabel('pwm-', id, Tpwm);
+	
+	Timer_value = Tpwm*160;
+	let data = {
+		device: "ESP32",
+		command: "setPWM",
+		id: id,
+		Tpwm: Timer_value,
+		Duty: Duty
+	}
+
+	let json = JSON.stringify(data);
+	connection.send(json);
+}
+
+
+// ESTO ESTÁ SIN IMPLEMENTAR DEL TODO
+// HAy que ver como se traducen el Duty Cyle a valor de lo que sea
+function sendDAC(id, Dac) {
+	updateSliderText('DAC-', id, Dac);
+	let data = {
+		device: "ESP32",
+		command: "setDAC",
+		id: id,
+		//SIN COMPLETAR
+		DAC: Dac
+	}
+
+	let json = JSON.stringify(data);
+	connection.send(json);
+}
+
+/** 
 function sendTpwm(id, Tpwm) {
 	updateSliderText('pwm-', id, Tpwm);
 	updateLabel('pwm-', id, Tpwm);
+
 	Timer_value = Tpwm*160;
 	let data = {
 		device: "ESP32",
@@ -133,24 +171,7 @@ function sendDuty(id, Duty) {
 	let json = JSON.stringify(data);
 	connection.send(json);
 }
-
-// ESTO ESTÁ SIN IMPLEMENTAR DEL TODO
-// HAy que ver como se traducen el Duty Cyle a valor de lo que sea
-function sendDAC(id, Dac) {
-	updateSliderText('DAC-', id, Dac);
-	let data = {
-		device: "ESP32",
-		command: "setDAC",
-		id: id,
-		//SIN COMPLETAR
-		DAC: Dac
-	}
-
-	let json = JSON.stringify(data);
-	connection.send(json);
-}
-
-
+*/
 function updateDATA(pHData, tempData, modeData) {
 	document.getElementById('input-label-pH').textContent = pHData;
 	document.getElementById('input-label-temp').textContent = tempData;

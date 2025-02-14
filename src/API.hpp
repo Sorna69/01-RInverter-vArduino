@@ -18,24 +18,25 @@ void setGPIO(const int id, bool state)
 // ACTUALMENTE CONFIGURADO PAR AQUE EL DUTY CYCLE SEA SIEMPRE DEL 50% HAY QUE SACAR FUERA LA FUNCION setDutyCicle
 // IMPORTANTE: CREO QUE ES MEJOR METER TODA LA ACUTALZIACIÓN DEL PWM EN UNA SOLA FUNCION. ES DECIR, AUNQUE
 // SOLO CAMBIE UNO DE LSO PARÁMETROS, SE DEBEN ACTUALIZAR TODOS LOS REGISTROS DEL PWM (FRECUENCIA y DUTY CYCLE)
-void setTpwm(int id, uint16_t pwm)
+void setTpwm(int id, uint16_t Tpwm, uint8_t Duty)
 {
-  Serial.print("Set PWM ");
+  Serial.print("Set PWM-");
   Serial.print(id);
-  Serial.print(": ");
-  Serial.println(pwm);
-  
-  setTimer0Period(pwm);
-  //ESTI SALDRA FUERA DEK CODIGO
+  Serial.print("//Tpwm: ");
+  Serial.println(Tpwm);
+  Serial.print("//Duty: ");
+  Serial.println(Duty);
+
+  setTimer0Period(Tpwm);
   // en principio debería bastar con pasar el duty cycle multiplicado por pwm, es decir
-  //setDutyCicle((uint16_t)pwm*Duty/100) (puesto que está en %);
-  setDutyCicle((uint16_t)pwm / 2);
+  setDutyCicle((uint16_t)Tpwm*Duty/100);
+  //setDutyCicle((uint16_t)Tpwm / 2);
 
   // Lo que tenga que hacer el PWM, cambiar frecuencia y/o Duty Cicle
   // digitalWrite(id, state);
 }
 
-
+/** */
 // ACTUALMENTE CONFIGURADO PAR AQUE EL DUTY CYCLE SEA SIEMPRE DEL 50% HAY QUE SACAR FUERA LA FUNCION setDutyCicle
 void setDuty(int id, uint16_t duty)
 {

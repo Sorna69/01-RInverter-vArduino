@@ -99,8 +99,9 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
     else if (command == "setPWM")
     {
       const int id = doc["id"];
-      const uint16_t Tpwm = (uint16_t)doc["pwm"];
-      setTpwm(id, Tpwm);
+      const uint16_t Tpwm = (uint16_t)doc["Tpwm"];
+      const uint8_t Duty = (uint8_t)doc["Duty"];
+      setTpwm(id, Tpwm, Duty);
 
       // setPWM(doc["id"], (uint16_t)doc["pwm"]);
       // ws.textAll(request);
