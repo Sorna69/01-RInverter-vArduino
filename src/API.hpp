@@ -36,7 +36,7 @@ void setTpwm(int id, uint16_t Tpwm, uint8_t Duty)
   // digitalWrite(id, state);
 }
 
-/** */
+
 // ACTUALMENTE CONFIGURADO PAR AQUE EL DUTY CYCLE SEA SIEMPRE DEL 50% HAY QUE SACAR FUERA LA FUNCION setDutyCicle
 void setDuty(int id, uint16_t duty)
 {

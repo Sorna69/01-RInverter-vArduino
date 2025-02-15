@@ -60,48 +60,49 @@
 
         <div class="mdl-card__supporting-text">
             <h6>Controles</h6>
-            <ul class="mdl-list mdl-shadow--2dp">
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">MOTOR ON/OFF</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-                            <input id="motor-switch" data-id="04" type="checkbox" class="mdl-switch__input" checked ="true"
-                                onchange="sendGPIO(this.dataset.id, this.checked)" />
-                        </label>
-                    </span>
-                </li>
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">Tpwm [us]</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <div class="mdl-grid">
-                            <div class="mdl-cell mdl-cell--10-col">
-                                <input id="slider-pwm-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
-                                    min="50" max="400" value="50" onchange="sendPwm(this.dataset.id, this.value, 'slider-duty-1'.dataset.value);">
-                            </div>
-                            <div class="mdl-cell mdl-cell--2-col">
-                                <input id="slider-text-pwm-1" data-id="1" style="width:30px;" min="50" max="400"
-                                    value="50" onchange="sendPwm(this.dataset.id, this.value, 'slider-duty-1'.dataset.value);"></input>
-                            </div>
-                        </div>
-                    </span>
-                </li>
-                
-<!-- ESTO ESTÁ TODAVÍA SIN IMPLEMENTAR -->
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">Duty [%]</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <div class="mdl-grid">
-                            <div class="mdl-cell mdl-cell--10-col">
-                                <input id="slider-duty-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
-                                    min="0" max="100" value="50" onchange="sendPwm(this.dataset.id,'slider-pwm-1'.dataset.value, this.value);">
-                            </div>
-                            <div class="mdl-cell mdl-cell--2-col">
-                                <input id="slider-text-duty-1" data-id="1" style="width:30px;" min="0" max="100"
-                                    value="50" onchange="sendPwm(this.dataset.id,'slider-pwm-1'.dataset.value, this.value);"></input>
-                            </div>
-                        </div>
-                    </span>
-                </li>
+                <ul class="mdl-list mdl-shadow--2dp">
+                    <li class="mdl-list__item">
+                        <span class="mdl-list__item-primary-content">MOTOR ON/OFF</span>
+                        <span class="mdl-list__item-secondary-action">
+                            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                                <input id="motor-switch" data-id="04" type="checkbox" class="mdl-switch__input" checked ="true"
+                                    onchange="sendGPIO(this.dataset.id, this.checked)" />
+                            </label>
+                        </span>
+                    </li>
+
+                    <form id = "form-pwm-1" data-id="1" onchange="sendPwm(event, this.dataset.id)">
+                        <li class="mdl-list__item">
+                            <span class="mdl-list__item-primary-content">Tpwm [us]</span>
+                            <span class="mdl-list__item-secondary-action">
+                                <div class="mdl-grid">
+                                    <div class="mdl-cell mdl-cell--10-col">
+                                        <input name="slider-Tpwm" id="slider-Tpwm-1" class="mdl-slider mdl-js-slider" type="range"
+                                            min="50" max="400" value="50">
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--2-col">
+                                        <input name="slider-text-Tpwm" id="slider-text-Tpwm-1" style="width:30px;" min="50" max="400" value="50"></input>
+                                    </div>
+                                </div>
+                            </span>
+                        </li>
+                    
+    <!-- ESTO ESTÁ TODAVÍA SIN IMPLEMENTAR -->
+                        <li class="mdl-list__item">
+                            <span class="mdl-list__item-primary-content">Duty [%]</span>
+                            <span class="mdl-list__item-secondary-action">
+                                <div class="mdl-grid">
+                                    <div class="mdl-cell mdl-cell--10-col">
+                                        <input name="slider-Duty" id="slider-Duty-1" class="mdl-slider mdl-js-slider" type="range"
+                                            min="0" max="100" value="50">
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--2-col">
+                                        <input name="slider-text-Duty" id="slider-text-Duty-1" style="width:30px;" min="0" max="100" value="50"></input>
+                                    </div>
+                                </div>
+                            </span>
+                        </li>
+                    </form>
 
                 <!-- ESTO ESTÁ TODAVÍA SIN COMPROBAR SEÑAL -->
                 <li class="mdl-list__item">

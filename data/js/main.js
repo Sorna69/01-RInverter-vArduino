@@ -103,11 +103,22 @@ function updateGPIO(id, status) {
 }
 
 
-function sendPwm(id, Tpwm, Duty) {
-	// No estoy actualizando bien los valores de Slider y Text. Pero no tiene sentido que no fucniones
-	updateSliderText('pwm-', id, Tpwm);
-	updateLabel('pwm-', id, Tpwm);
-	
+function sendPwm(event, id) {
+	var inputElement = event.target;
+	// Inicialización de los valores de Tpwm y Duty
+	const Tpwm = document.getElementById('form-pwm-'+id).elements["slider-Tpwm"].value;
+	const Duty = document.getElementById('form-pwm-'+id).elements["slider-Duty"].value;
+
+	if (inputElement.name == 'slider-Tpwm' || inputElement.name == 'slider-text-Tpwm'){
+		const Tpwm = inputElement.value
+		updateSliderText('Tpwm-', id, Tpwm);
+	}
+	else if (inputElement.name == 'slider-Duty' || inputElement.name == 'slider-text-Duty') {
+		const Duty = inputElement.value
+		console.log('if')
+		updateSliderText('Duty-', id, Duty);
+	}
+
 	Timer_value = Tpwm*160;
 	let data = {
 		device: "ESP32",
@@ -135,10 +146,29 @@ function sendDAC(id, Dac) {
 	}
 
 	let json = JSON.stringify(data);
-	connection.send(json);
+	//connection.send(json);
 }
 
 /** 
+ function sendPwm(id, Tpwm, Duty) {
+	// No estoy actualizando bien los valores de Slider y Text. Pero no tiene sentido que no fucniones
+	updateSliderText('pwm-', id, Tpwm);
+	updateLabel('pwm-', id, Tpwm);
+	//console.log('WebSocket Error', error);
+
+	Timer_value = Tpwm*160;
+	let data = {
+		device: "ESP32",
+		command: "setPWM",
+		id: id,
+		Tpwm: Timer_value,
+		Duty: Duty
+	}
+
+	let json = JSON.stringify(data);
+	connection.send(json);
+}
+
 function sendTpwm(id, Tpwm) {
 	updateSliderText('pwm-', id, Tpwm);
 	updateLabel('pwm-', id, Tpwm);
@@ -172,6 +202,7 @@ function sendDuty(id, Duty) {
 	connection.send(json);
 }
 */
+
 function updateDATA(pHData, tempData, modeData) {
 	document.getElementById('input-label-pH').textContent = pHData;
 	document.getElementById('input-label-temp').textContent = tempData;
@@ -179,6 +210,7 @@ function updateDATA(pHData, tempData, modeData) {
 }
 
 function updateSliderText(tipo, id, value) {
+	console.log('slider-' +tipo + id);
 	document.getElementById('slider-' +tipo + id).value = value;
 	document.getElementById('slider-text-' +tipo + id).value = value;
 }
