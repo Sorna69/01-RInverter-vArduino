@@ -30,10 +30,12 @@ void setup()
   confMCPWMGPIO();
 
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(22, OUTPUT);
-
-  digitalWrite(LED_BUILTIN, HIGH);
-  digitalWrite(22, HIGH);
+  pinMode(MOTOR_SWITCH, OUTPUT);
+  //pinMode(22, OUTPUT);
+  
+  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(MOTOR_SWITCH, LOW);
+  //digitalWrite(22, HIGH);
 
   //enableCore0WDT();
   //enableCore1WDT();
@@ -41,5 +43,6 @@ void setup()
 
 void loop()
 {
+// No tengo claro si este delay es necesario.
 delay(100);
 }

@@ -1,6 +1,5 @@
-#define LED_BUILTIN 2
-#define DIS 22
-
+#define LED_BUILTIN 2       // GPIO2 Asociado al LED de la placa
+#define MOTOR_SWITCH 22     // GPIO22: Motor ON/OFF
 
 // Configuración modo AP
 const char *ssid_AP = "ESP32-AP01";
