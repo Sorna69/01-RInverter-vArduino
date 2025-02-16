@@ -17,60 +17,39 @@
 
     <div class="mdl-card mdl-shadow--2dp">
         <div class="mdl-card__title mdl-card--expand">
-            <h2 class="mdl-card__title-text">Interfaz proto-Alfa</h2>
+            <h2 class="mdl-card__title-text">Interfaz ESP-32</h2>
         </div>
 
         <div class="mdl-card__supporting-text">
-            <h6>Configuración</h6>
-            <ul class="mdl-list mdl-shadow--2dp">
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">GATE DRIVER DIS</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-                            <input id="output-switch-22" data-id="22" type="checkbox" class="mdl-switch__input" checked ="true"
-                                onchange="sendGPIO(this.dataset.id, this.checked)" />
-                        </label>
-                    </span>
-                </li>
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-secondary-action">
-                        <label id="input-label-GPIO2" class="label-big Off-style">OFF</label>
-                    </span>
-                </li>
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">PWM-A</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-                            <input id="pwm-switch-15" data-id="15" type="checkbox" class="mdl-switch__input" checked ="true"
-                                onchange="enablePWM(this.dataset.id, this.checked)" />
-                        </label>
-                    </span>
-                </li>
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">PWM-B</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-                            <input id="pwm-switch-18" data-id="18" type="checkbox" class="mdl-switch__input" checked ="true"
-                                onchange="enablePWM(this.dataset.id, this.checked)" />
-                        </label>
-                    </span>
-                </li>
-            </ul>
-        </div>
-
-        <div class="mdl-card__supporting-text">
-            <h6>Controles</h6>
+            <h6 class="mdl-card__title-text">Controles</h6>
                 <ul class="mdl-list mdl-shadow--2dp">
                     <li class="mdl-list__item">
-                        <span class="mdl-list__item-primary-content">MOTOR ON/OFF</span>
+                        <span class="mdl-list__item-primary-content">MOTOR</span>
                         <span class="mdl-list__item-secondary-action">
                             <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-                                <input id="output-switch-4" data-id="4" type="checkbox" class="mdl-switch__input" checked ="true"
-                                    onchange="sendGPIO(this.dataset.id, this.checked)" />
+                                <input id="output-switch-22" data-id="22" type="checkbox" class="mdl-switch__input"
+                                    onchange="sendGPIO(this.dataset.id, this.checked)">
                             </label>
                         </span>
                     </li>
-
+                    <li class="mdl-list__item">
+                        <span class="mdl-list__item-primary-content">PWM-A</span>
+                        <span class="mdl-list__item-secondary-action">
+                            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                                <input id="pwm-switch-15" data-id="15" type="checkbox" class="mdl-switch__input" checked ="true"
+                                    onchange="enablePWM(this.dataset.id, this.checked)">
+                            </label>
+                        </span>
+                    </li>
+                    <li class="mdl-list__item">
+                        <span class="mdl-list__item-primary-content">PWM-B</span>
+                        <span class="mdl-list__item-secondary-action">
+                            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                                <input id="pwm-switch-18" data-id="18" type="checkbox" class="mdl-switch__input" checked ="true"
+                                    onchange="enablePWM(this.dataset.id, this.checked)">
+                            </label>
+                        </span>
+                    </li>
                     <form id = "form-pwm-1" data-id="1" onchange="sendPwm(event, this.dataset.id)">
                         <li class="mdl-list__item">
                             <span class="mdl-list__item-primary-content">Tpwm [us]</span>
@@ -81,7 +60,7 @@
                                             min="50" max="400" value="50">
                                     </div>
                                     <div class="mdl-cell mdl-cell--2-col">
-                                        <input name="slider-text-Tpwm" id="slider-text-Tpwm-1" style="width:30px;" min="50" max="400" value="50"></input>
+                                        <input name="slider-text-Tpwm" id="slider-text-Tpwm-1" style="width:30px;" min="50" max="400" value="50">
                                     </div>
                                 </div>
                             </span>
@@ -95,34 +74,43 @@
                                             min="0" max="100" value="50">
                                     </div>
                                     <div class="mdl-cell mdl-cell--2-col">
-                                        <input name="slider-text-Duty" id="slider-text-Duty-1" style="width:30px;" min="0" max="100" value="50"></input>
+                                        <input name="slider-text-Duty" id="slider-text-Duty-1" style="width:30px;" min="0" max="100" value="50">
                                     </div>
                                 </div>
                             </span>
                         </li>
                     </form>
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">AO [mV]</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <div class="mdl-grid">
-                            <div class="mdl-cell mdl-cell--10-col">
-                                <input id="slider-DAC-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
-                                    min="0" max="3300" value="0" step="100" onchange="sendDAC(this.dataset.id, this.value);">
+                    <li class="mdl-list__item">
+                        <span class="mdl-list__item-primary-content">AO [mV]</span>
+                        <span class="mdl-list__item-secondary-action">
+                            <div class="mdl-grid">
+                                <div class="mdl-cell mdl-cell--10-col">
+                                    <input id="slider-DAC-1" data-id="1" class="mdl-slider mdl-js-slider" type="range"
+                                        min="0" max="3300" value="0" step="100" onchange="sendDAC(this.dataset.id, this.value);">
+                                </div>
+                                <div class="mdl-cell mdl-cell--2-col">
+                                    <input id="slider-text-DAC-1" data-id="1" style="width:30px;" min="0" max="3300"
+                                        value="0" step="100" onchange="sendDAC(this.dataset.id, this.value);">
+                                </div>
                             </div>
-                            <div class="mdl-cell mdl-cell--2-col">
-                                <input id="slider-text-DAC-1" data-id="1" style="width:30px;" min="0" max="3300"
-                                    value="0" step="100" onchange="sendDAC(this.dataset.id, this.value);"></input>
-                            </div>
-                        </div>
-                    </span>
-                </li>
-                <li class="mdl-list__item">
-                    <span class="mdl-list__item-primary-content">Frecuencia</span>
-                    <span class="mdl-list__item-secondary-action">
-                        <label id="input-label-pwm-1" class="label-big Off-style">---</label>
-                    </span>
-                </li>
-            </ul>
+                        </span>
+                    </li>
+                </ul>
+            <h6 class="mdl-card__title-text">Estado</h6>
+                <ul class="mdl-list mdl-shadow--2dp">
+                    <li class="mdl-list__item">
+                        <span class="mdl-list__item-primary-content">Motor</span>
+                        <span class="mdl-list__item-secondary-action">
+                            <label id="input-label-GPIO22" class="label-big Off-style">OFF</label>
+                        </span>
+                    </li>
+                    <li class="mdl-list__item">
+                        <span class="mdl-list__item-primary-content">Frecuencia</span>
+                        <span class="mdl-list__item-secondary-action">
+                            <label id="input-label-pwm-1" class="label-big Off-style">2000</label>
+                        </span>
+                    </li>
+                </ul>
         </div>
     </div>
 </body>

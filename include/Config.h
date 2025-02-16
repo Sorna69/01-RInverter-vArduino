@@ -2,7 +2,7 @@
 #define MOTOR_SWITCH 22     // GPIO22: Motor ON/OFF
 
 // Configuración modo AP
-const char *ssid_AP = "ESP32-AP01";
+const char *ssid_AP = "ESP32-AP00";
 const char *password_AP = "Manele-00";
 const char* hostname = "ESP32-RInv";
 

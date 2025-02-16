@@ -8,7 +8,7 @@ void setGPIO(const int id, bool state)
   Serial.println(state);
   digitalWrite(id, state);
 
-  // No entiendo este bucle de aqui
+  // Asocia el estado del LED_BUILTIN al estado del MOTOR_SWITCH
   if (id == MOTOR_SWITCH)
   {
     digitalWrite(LED_BUILTIN, digitalRead(id));
