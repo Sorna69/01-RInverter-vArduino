@@ -17,7 +17,6 @@
 
 void setup()
 {
-
   Serial.begin(115200);
   SPIFFS.begin();
 
@@ -35,9 +34,12 @@ void setup()
 
   digitalWrite(LED_BUILTIN, HIGH);
   digitalWrite(22, HIGH);
+
+  //enableCore0WDT();
+  //enableCore1WDT();
 }
 
 void loop()
 {
-
+delay(100);
 }

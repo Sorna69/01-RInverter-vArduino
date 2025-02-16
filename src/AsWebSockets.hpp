@@ -100,27 +100,15 @@ void ProcessRequest(AsyncWebSocketClient *client, String request)
     {
       const int id = doc["id"];
       const uint16_t Tpwm = (uint16_t)doc["Tpwm"];
-      const uint8_t Duty = (uint8_t)doc["Duty"];
+      const uint16_t Duty = (uint16_t)doc["Duty"];
       setTpwm(id, Tpwm, Duty);
 
       // setPWM(doc["id"], (uint16_t)doc["pwm"]);
       // ws.textAll(request);
     }
-
-
-    //COMANDOS NUEVOS, REVISAR
-    else if (command == "setDuty")
+    else if (command == "setDAC")
     {
-      const int id = doc["id"];
-      const uint16_t duty = (uint16_t)doc["Duty"];
-      setDuty(id, duty);
-
-      // setPWM(doc["id"], (uint16_t)doc["pwm"]);
-      // ws.textAll(request);
-    }
-
-    else if (command == "setPWM")
-    {
+      Serial.print("Comando Set DAC");
       const int id = doc["id"];
       const uint16_t dac = (uint16_t)doc["DAC"];
       setDAC(id, dac);

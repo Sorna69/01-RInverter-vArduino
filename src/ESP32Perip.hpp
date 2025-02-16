@@ -23,10 +23,10 @@ void setTimer0Period(uint16_t Periodo)
 
 void setDutyCicle(uint16_t Duty)
 {
-    Serial.print("Valor del Registro A: ");
+    Serial.print("Valor del Registro Duty (Antes): ");
     Serial.println(REG_GET_FIELD(MCPWM_GEN0_TSTMP_A_REG(0), MCPWM_GEN0_A));
     REG_SET_FIELD(MCPWM_GEN0_TSTMP_A_REG(0), MCPWM_GEN0_A, Duty);
-    Serial.print("Valor del Registro A: ");
+    Serial.print("Valor del Registro Duty (Despues): ");
     Serial.println(REG_GET_FIELD(MCPWM_GEN0_TSTMP_A_REG(0), MCPWM_GEN0_A));
 }
 

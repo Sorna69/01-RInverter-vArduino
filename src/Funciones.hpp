@@ -47,7 +47,7 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
     client->ping();
 
     // al conectarse enviar los estados de los GPIO (Para mas estados incluir bucle)
-    updateGPIO(LED_BUILTIN, digitalRead(LED_BUILTIN), client->id());
+    //updateGPIO(LED_BUILTIN, digitalRead(LED_BUILTIN), client->id());
   }
   else if (type == WS_EVT_DISCONNECT)
   {
@@ -114,10 +114,7 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
         if (info->final)
         {
           if (info->message_opcode == WS_TEXT)
-            ProcessRequest(client, msg);
-
-          // ProcessRequestNano(client, msg);
-        }
+            ProcessRequest(client, msg);        }
       }
     }
   }

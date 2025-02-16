@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+
+<head>
+    <title>ProtoInverter</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <link rel="stylesheet" href="vendor/google-fonts.css">
+    <link rel="stylesheet" href="vendor/material.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <div class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title mdl-card--expand">
+            <h2 class="mdl-card__title-text">Interfaz proto-Alfa</h2>
+        </div>
+
+        <div class="mdl-card__supporting-text">
+            <h6>Configuración</h6>
+            <ul class="mdl-list mdl-shadow--2dp">
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">GATE DRIVER DIS</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                            <input id="output-switch-22" data-id="22" type="checkbox" class="mdl-switch__input" checked="true" />
+                        </label>
+                    </span>
+                </li>
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-secondary-action">
+                        <label id="input-label-GPIO2" class="label-big Off-style">OFF</label>
+                    </span>
+                </li>
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">PWM-A</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                            <input id="pwm-switch-15" data-id="15" type="checkbox" class="mdl-switch__input" checked="true" />
+                        </label>
+                    </span>
+                </li>
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">PWM-B</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                            <input id="pwm-switch-18" data-id="18" type="checkbox" class="mdl-switch__input" checked="true" />
+                        </label>
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="mdl-card__supporting-text">
+            <h6>Controles</h6>
+            <ul class="mdl-list mdl-shadow--2dp">
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">MOTOR ON/OFF</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                            <input id="motor-switch" data-id="04" type="checkbox" class="mdl-switch__input" checked="true" />
+                        </label>
+                    </span>
+                </li>
+
+                <form id="form-pwm-1" data-id="1">
+                    <li class="mdl-list__item">
+                        <span class="mdl-list__item-primary-content">Tpwm [us]</span>
+                        <span class="mdl-list__item-secondary-action">
+                            <div class="mdl-grid">
+                                <div class="mdl-cell mdl-cell--10-col">
+                                    <input name="slider-Tpwm" id="slider-Tpwm-1" class="mdl-slider mdl-js-slider" type="range" min="50" max="400" value="50">
+                                </div>
+                                <div class="mdl-cell mdl-cell--2-col">
+                                    <input name="slider-text-Tpwm" id="slider-text-Tpwm-1" style="width:30px;" min="50" max="400" value="50">
+                                </div>
+                            </div>
+                        </span>
+                    </li>
+                    <li class="mdl-list__item">
+                        <span class="mdl-list__item-primary-content">Duty [%]</span>
+                        <span class="mdl-list__item-secondary-action">
+                            <div class="mdl-grid">
+                                <div class="mdl-cell mdl-cell--10-col">
+                                    <input name="slider-Duty" id="slider-Duty-1" class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="50">
+                                </div>
+                                <div class="mdl-cell mdl-cell--2-col">
+                                    <input name="slider-text-Duty" id="slider-text-Duty-1" style="width:30px;" min="0" max="100" value="50">
+                                </div>
+                            </div>
+                        </span>
+                    </li>
+                </form>
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">AO [mV]</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--10-col">
+                                <input id="slider-DAC-1" data-id="1" class="mdl-slider mdl-js-slider" type="range" min="0" max="3300" value="0" step="100">
+                            </div>
+                            <div class="mdl-cell mdl-cell--2-col">
+                                <input id="slider-text-DAC-1" data-id="1" style="width:30px;" min="0" max="3300" value="0" step="100">
+                            </div>
+                        </div>
+                    </span>
+                </li>
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">Frecuencia</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <label id="input-label-pwm-1" class="label-big Off-style">---</label>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="./js/main.js"></script>
+<script type="text/javascript" src="vendor/material.js"></script>
+
+<script>
+    document.getElementById('output-switch-22').addEventListener('change', function () {
+        sendGPIO(this.dataset.id, this.checked);
+    });
+
+    document.getElementById('pwm-switch-15').addEventListener('change', function () {
+        enablePWM(this.dataset.id, this.checked);
+    });
+
+    document.getElementById('pwm-switch-18').addEventListener('change', function () {
+        enablePWM(this.dataset.id, this.checked);
+    });
+
+    document.getElementById('motor-switch').addEventListener('change', function () {
+        sendGPIO(this.dataset.id, this.checked);
+    });
+
+    document.getElementById('form-pwm-1').addEventListener('change', function (event) {
+        sendPwm(event, this.dataset.id);
+    });
+
+    document.getElementById('slider-DAC-1').addEventListener('change', function () {
+        sendDAC(this.dataset.id, this.value);
+    });
+
+    document.getElementById('slider-text-DAC-1').addEventListener('change', function () {
+        sendDAC(this.dataset.id, this.value);
+    });
+</script>
+
+</html>

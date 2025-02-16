@@ -102,7 +102,6 @@ function updateGPIO(id, status) {
 	
 }
 
-
 function sendPwm(event, id) {
 	var inputElement = event.target;
 	// Inicialización de los valores de Tpwm y Duty
@@ -112,96 +111,39 @@ function sendPwm(event, id) {
 	if (inputElement.name == 'slider-Tpwm' || inputElement.name == 'slider-text-Tpwm'){
 		const Tpwm = inputElement.value
 		updateSliderText('Tpwm-', id, Tpwm);
+		updateLabel(id, Tpwm);
+
 	}
 	else if (inputElement.name == 'slider-Duty' || inputElement.name == 'slider-text-Duty') {
 		const Duty = inputElement.value
 		console.log('if')
 		updateSliderText('Duty-', id, Duty);
 	}
-
-	Timer_value = Tpwm*160;
+	Tpwm_value = Tpwm*160;
+	Duty_value = Tpwm_value*Duty/100;
 	let data = {
 		device: "ESP32",
 		command: "setPWM",
 		id: id,
-		Tpwm: Timer_value,
-		Duty: Duty
+		Tpwm: Tpwm_value,
+		Duty: Duty_value
 	}
 
 	let json = JSON.stringify(data);
 	connection.send(json);
 }
 
-
-// ESTO ESTÁ SIN IMPLEMENTAR DEL TODO
-// HAy que ver como se traducen el Duty Cyle a valor de lo que sea
 function sendDAC(id, Dac) {
 	updateSliderText('DAC-', id, Dac);
 	let data = {
 		device: "ESP32",
 		command: "setDAC",
 		id: id,
-		//SIN COMPLETAR
 		DAC: Dac
 	}
-
-	let json = JSON.stringify(data);
-	//connection.send(json);
-}
-
-/** 
- function sendPwm(id, Tpwm, Duty) {
-	// No estoy actualizando bien los valores de Slider y Text. Pero no tiene sentido que no fucniones
-	updateSliderText('pwm-', id, Tpwm);
-	updateLabel('pwm-', id, Tpwm);
-	//console.log('WebSocket Error', error);
-
-	Timer_value = Tpwm*160;
-	let data = {
-		device: "ESP32",
-		command: "setPWM",
-		id: id,
-		Tpwm: Timer_value,
-		Duty: Duty
-	}
-
 	let json = JSON.stringify(data);
 	connection.send(json);
 }
-
-function sendTpwm(id, Tpwm) {
-	updateSliderText('pwm-', id, Tpwm);
-	updateLabel('pwm-', id, Tpwm);
-
-	Timer_value = Tpwm*160;
-	let data = {
-		device: "ESP32",
-		command: "setPWM",
-		id: id,
-		pwm: Timer_value
-	}
-
-	let json = JSON.stringify(data);
-	connection.send(json);
-}
-
-// ESTO ESTÁ SIN IMPLEMENTAR DEL TODO
-// HAy que ver como se traducen el Duty Cyle a valor de lo que sea
-function sendDuty(id, Duty) {
-	updateSliderText('duty-', id, Duty);
-	//Timer_value = Tpwm*160;
-	let data = {
-		device: "ESP32",
-		command: "setDuty",
-		id: id,
-		//SIN COMPLETAR
-		Duty: Duty
-	}
-
-	let json = JSON.stringify(data);
-	connection.send(json);
-}
-*/
 
 function updateDATA(pHData, tempData, modeData) {
 	document.getElementById('input-label-pH').textContent = pHData;
@@ -215,6 +157,6 @@ function updateSliderText(tipo, id, value) {
 	document.getElementById('slider-text-' +tipo + id).value = value;
 }
 
-function updateLabel(tipo, id, value) {
-	document.getElementById('input-label-' +tipo + id).textContent = Math.round(1000000/value);
+function updateLabel(id, value) {
+	document.getElementById('input-label-pwm-' + id).textContent = Math.round(1000000/value);
 }
